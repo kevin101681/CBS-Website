@@ -5,7 +5,8 @@ export default defineConfig({
   plugins: [react()],
   define: {
     // This allows the client-side code to access process.env.API_KEY during build
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
+    // Defaults to empty string to prevent crash if variable is not set in Netlify yet
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY || "")
   },
   server: {
     host: '0.0.0.0',
