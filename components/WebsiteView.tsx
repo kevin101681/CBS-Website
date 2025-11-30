@@ -166,8 +166,8 @@ ${formData.comments}
           />
         </div>
 
-        {/* Overlay for improved text contrast - Backdrop Blur Enabled */}
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] z-10"></div>
+        {/* Overlay for improved text contrast - Reduced Blur */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10"></div>
         
         {/* Content */}
         <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-4 md:mt-0 p-8">
@@ -383,7 +383,7 @@ ${formData.comments}
                 <img 
                   src={imageErrors[i] ? getPlaceholderImage(num) : `/${num}.png`}
                   alt={`Construction Project ${num}`}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 pointer-events-none select-none"
+                  className="w-full h-full object-contain hover:scale-105 transition-transform duration-500 pointer-events-none select-none"
                   draggable={false}
                   onError={() => handleImageError(i)}
                 />
