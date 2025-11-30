@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
   // Generate array for 60 images
@@ -158,17 +158,22 @@ ${formData.comments}
         </div>
 
         {/* Overlay for improved text contrast - Reduced Blur */}
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10"></div>
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[0.5px] z-10"></div>
         
         {/* Content */}
         <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-4 md:mt-0 p-8">
           
           {/* Centered Logo */}
-          <img 
-            src="/logo.png" 
-            alt="Cascade Builder Services Logo" 
-            className="h-24 md:h-32 w-auto object-contain drop-shadow-sm mb-4"
-          />
+          <div className="flex flex-col items-center mb-4">
+            <img 
+              src="/logo.png" 
+              alt="Cascade Builder Services Logo" 
+              className="h-24 md:h-32 w-auto object-contain drop-shadow-sm mb-2"
+            />
+            <div className="bg-primary-100 text-primary-700 px-4 py-1 rounded-full text-sm font-bold tracking-wide shadow-sm border border-primary-200">
+              Since 2008
+            </div>
+          </div>
 
           <h1 className="text-display-large text-5xl md:text-7xl lg:text-8xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
             You Build. <br/>
