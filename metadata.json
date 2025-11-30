@@ -1,5 +1,7 @@
 {
-  "name": "CBS Website",
-  "description": "A responsive, Material 3 Expressive AI assistant featuring text chat and multimodal vision capabilities, styled with a slate-blue palette.",
-  "requestFramePermissions": []
+  "name": "BlueTag Cascade Final",
+  "description": "A professional construction defect tracking tool powered by Gemini AI. Create location-based punch lists, analyze defects with AI vision, and export comprehensive PDF reports.",
+  "requestFramePermissions": [
+    "camera"
+  ]
 }

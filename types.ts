@@ -1,25 +1,61 @@
-export enum Role {
-  USER = 'user',
-  MODEL = 'model'
-}
 
-export interface ChatMessage {
+export type Severity = 'Low' | 'Medium' | 'High' | 'Critical';
+export type ColorTheme = string;
+
+export interface ProjectField {
   id: string;
-  role: Role;
-  text: string;
+  label: string;
+  value: string;
+  icon: string; // 'User' | 'MapPin' | 'Phone' | 'Mail' | 'Calendar' | 'FileText' | 'Hash' etc.
+}
+
+export interface ProjectDetails {
+  fields: ProjectField[];
+  signOffImage?: string; // Base64 string of the signed document
+  reportPreviewImage?: string; // Base64 string of the marked-up report
+}
+
+export interface IssuePhoto {
+    url: string;
+    description: string;
+}
+
+export interface Issue {
+  id: string;
+  description: string;
+  severity: Severity;
+  photos: IssuePhoto[]; // Array of objects with url and description
   timestamp: number;
-  isError?: boolean;
 }
 
-export interface VisionState {
-  image: string | null; // Base64
-  prompt: string;
-  response: string;
-  isLoading: boolean;
+export interface LocationGroup {
+  id: string;
+  name: string;
+  issues: Issue[];
 }
 
-export enum AppView {
-  HOME = 'HOME',
-  CHAT = 'CHAT',
-  VISION = 'VISION'
+export interface Report {
+  id: string;
+  project: ProjectDetails;
+  locations: LocationGroup[];
+  lastModified: number;
+}
+
+export interface AppState {
+  project: ProjectDetails;
+  locations: LocationGroup[];
+  cameraAccess?: boolean;
+}
+
+export interface SignOffSection {
+  id: string;
+  title: string;
+  body: string;
+  type: 'text' | 'initials' | 'signature';
+}
+
+export interface SignOffTemplate {
+  id: string;
+  name: string;
+  sections: SignOffSection[];
 }
