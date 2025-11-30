@@ -142,15 +142,6 @@ ${formData.comments}
 
   return (
     <div className="w-full h-full overflow-y-auto bg-white custom-scrollbar" id="home-container">
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
       
       {/* Hero Section */}
       <section 
@@ -166,8 +157,8 @@ ${formData.comments}
           />
         </div>
 
-        {/* Overlay for improved text contrast - Reduced Blur to 0.5px */}
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[0.5px] z-10"></div>
+        {/* Overlay for improved text contrast - Reduced Blur */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10"></div>
         
         {/* Content */}
         <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-4 md:mt-0 p-8">
@@ -379,7 +370,7 @@ ${formData.comments}
           >
             {/* Duplicate array for seamless looping visual */}
             {[...images, ...images].map((num, i) => (
-              <div key={i} className="relative w-[220px] md:w-[300px] aspect-[4/3] mx-3 rounded-2xl overflow-hidden border border-primary-200 shadow-sm flex-shrink-0 bg-white">
+              <div key={i} className="relative w-[220px] md:w-[300px] aspect-[4/3] mx-3 rounded-2xl overflow-hidden border border-primary-200 shadow-sm flex-shrink-0 bg-white p-2">
                 <img 
                   src={imageErrors[i] ? getPlaceholderImage(num) : `/${num}.png`}
                   alt={`Construction Project ${num}`}
