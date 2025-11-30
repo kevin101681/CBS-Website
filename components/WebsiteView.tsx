@@ -166,8 +166,8 @@ ${formData.comments}
           />
         </div>
 
-        {/* Overlay for improved text contrast - Reduced Blur */}
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10"></div>
+        {/* Overlay for improved text contrast - Reduced Blur to 0.5px */}
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[0.5px] z-10"></div>
         
         {/* Content */}
         <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-4 md:mt-0 p-8">
@@ -379,11 +379,11 @@ ${formData.comments}
           >
             {/* Duplicate array for seamless looping visual */}
             {[...images, ...images].map((num, i) => (
-              <div key={i} className="relative w-[220px] md:w-[300px] aspect-[4/3] mx-3 rounded-2xl overflow-hidden border border-primary-200 shadow-sm flex-shrink-0 bg-primary-100">
+              <div key={i} className="relative w-[220px] md:w-[300px] aspect-[4/3] mx-3 rounded-2xl overflow-hidden border border-primary-200 shadow-sm flex-shrink-0 bg-white">
                 <img 
                   src={imageErrors[i] ? getPlaceholderImage(num) : `/${num}.png`}
                   alt={`Construction Project ${num}`}
-                  className="w-full h-full object-contain hover:scale-105 transition-transform duration-500 pointer-events-none select-none"
+                  className="w-full h-full object-contain pointer-events-none select-none"
                   draggable={false}
                   onError={() => handleImageError(i)}
                 />
@@ -520,7 +520,7 @@ ${formData.comments}
                      <img 
                        src="/warranty.png" 
                        alt="Click Project Management then Warranty" 
-                       className="w-full rounded-xl border border-primary-200 shadow-sm"
+                       className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
                      />
                    </div>
 
@@ -532,7 +532,7 @@ ${formData.comments}
                      <img 
                        src="/newclaim.png" 
                        alt="Click New Claim Button" 
-                       className="w-full rounded-xl border border-primary-200 shadow-sm"
+                       className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
                      />
                    </div>
 
@@ -544,7 +544,7 @@ ${formData.comments}
                      <img 
                        src="/claimdetails.png" 
                        alt="Claim Details Form Example" 
-                       className="w-full rounded-xl border border-primary-200 shadow-sm"
+                       className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
                      />
                    </div>
 
@@ -557,12 +557,12 @@ ${formData.comments}
                        <img 
                          src="/upload.png" 
                          alt="Upload Interface" 
-                         className="w-full rounded-xl border border-primary-200 shadow-sm"
+                         className="w-full h-48 object-contain bg-white rounded-xl border border-primary-200 shadow-sm mx-auto"
                        />
                        <img 
                          src="/upload2.png" 
                          alt="Upload Confirmation" 
-                         className="w-full rounded-xl border border-primary-200 shadow-sm"
+                         className="w-full h-48 object-contain bg-white rounded-xl border border-primary-200 shadow-sm mx-auto"
                        />
                      </div>
                    </div>

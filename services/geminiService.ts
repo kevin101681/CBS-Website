@@ -1,68 +1,104 @@
+import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
+import { Role } from "../types";
 
-import { GoogleGenAI } from "@google/genai";
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-// Helper to safely access process.env in various environments
-const getApiKey = () => {
-  try {
-    // Check if process exists and has env
-    if (typeof process !== 'undefined' && process.env) {
-      return process.env.API_KEY || "";
-    }
-  } catch (e) {
-    // process is not defined or accessible
+const MODEL_CHAT = 'gemini-2.5-flash';
+const MODEL_VISION = 'gemini-2.5-flash';
+
+// Initialize a chat session
+let chatSession: Chat | null = null;
+
+export const getChatSession = (): Chat => {
+  if (!chatSession) {
+    chatSession = ai.chats.create({
+      model: MODEL_CHAT,
+      config: {
+        systemInstruction: "You are a helpful, concise, and friendly AI assistant. Use Markdown for formatting.",
+      },
+    });
   }
-  return "";
+  return chatSession;
 };
 
-const apiKey = getApiKey();
-// Initialize only if we have a key (or handle empty key gracefully in calls)
-const ai = new GoogleGenAI({ apiKey: apiKey || "dummy_key" });
+export const resetChatSession = () => {
+  chatSession = null;
+};
 
-export const analyzeDefectImage = async (base64Image: string): Promise<string> => {
+export const sendChatMessageStream = async (
+  message: string,
+  onChunk: (text: string) => void
+): Promise<string> => {
+  const chat = getChatSession();
+  let fullText = "";
+
   try {
-    if (!apiKey) {
-        console.warn("Gemini API Key is missing.");
-        return "AI analysis unavailable (Key missing).";
+    const result = await chat.sendMessageStream({ message });
+    
+    for await (const chunk of result) {
+      const c = chunk as GenerateContentResponse;
+      if (c.text) {
+        fullText += c.text;
+        onChunk(fullText);
+      }
     }
+  } catch (error) {
+    console.error("Error sending chat message:", error);
+    throw error;
+  }
 
-    // Remove header if present (data:image/jpeg;base64,)
+  return fullText;
+};
+
+export const analyzeImageStream = async (
+  base64Image: string,
+  prompt: string,
+  mimeType: string,
+  onChunk: (text: string) => void
+): Promise<string> => {
+  let fullText = "";
+
+  try {
+    // Clean base64 string if it contains the data URL prefix
     const cleanBase64 = base64Image.split(',')[1] || base64Image;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+    const response = await ai.models.generateContentStream({
+      model: MODEL_VISION,
       contents: {
         parts: [
-            {
-                inlineData: {
-                    mimeType: 'image/jpeg',
-                    data: cleanBase64
-                }
-            },
-            {
-                text: "Analyze this construction image. Identify the specific defect or issue shown (e.g., cracked drywall, chipped paint, ungrounded outlet). Provide a concise, professional 1-sentence description suitable for a formal construction punch list. Do not add conversational filler."
+          {
+            inlineData: {
+              mimeType: mimeType,
+              data: cleanBase64
             }
+          },
+          {
+            text: prompt || "Describe this image in detail."
+          }
         ]
       }
     });
 
-    return response.text || "Could not analyze image.";
+    for await (const chunk of response) {
+      if (chunk.text) {
+        fullText += chunk.text;
+        onChunk(fullText);
+      }
+    }
   } catch (error) {
-    console.error("Gemini Analysis Error:", error);
-    return "AI analysis unavailable.";
+    console.error("Error analyzing image:", error);
+    throw error;
   }
+
+  return fullText;
 };
 
-export const suggestFix = async (issueDescription: string): Promise<string> => {
-    try {
-        if (!apiKey) return "";
-
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: `For the following construction defect: "${issueDescription}", suggest a concise standard repair method (max 20 words).`
-        });
-        return response.text || "";
-    } catch (error) {
-        console.error("Gemini Fix Suggestion Error:", error);
-        return "";
-    }
+// Helper to convert file to base64
+export const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
 };
