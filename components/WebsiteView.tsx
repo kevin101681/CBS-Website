@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
-  // Generate array for 60 images
-  const images = Array.from({ length: 60 }, (_, i) => i + 1);
+  // Generate array for 57 images (Removed 58, 59, 60 as requested)
+  const images = Array.from({ length: 57 }, (_, i) => i + 1);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isPaused = useRef(false);
   const resumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -130,26 +130,25 @@ const WebsiteView: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate network delay and construct mailto
-    setTimeout(() => {
-      const subject = `New Quote Request from ${formData.company}`;
-      const body = `
-Name: ${formData.firstName} ${formData.lastName}
-Company: ${formData.company}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Annual Closings: ${formData.closings}
+    const encode = (data: any) => {
+      return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+    };
 
-Comments:
-${formData.comments}
-      `;
-      
-      // Open email client
-      window.location.href = `mailto:kevin@cascadebuilderservices.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "quote-request", ...formData })
+    })
+    .then(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-    }, 1000);
+    })
+    .catch(error => {
+      alert("Submission failed. Please try again or contact us directly.");
+      setIsSubmitting(false);
+    });
   };
 
   // Helper to generate internal SVG placeholder if local image fails
@@ -177,7 +176,7 @@ ${formData.comments}
         id="home" 
         className="relative w-full min-h-[700px] md:min-h-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-20 overflow-hidden pt-10 pb-32"
       >
-        {/* Background Image - Absolute path works when file is in 'public' folder */}
+        {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
             src="/header.png" 
@@ -302,12 +301,44 @@ ${formData.comments}
             </div>
           </div>
           
-          <div className="max-w-4xl mx-auto text-primary-600 text-lg md:text-xl leading-relaxed mb-16 space-y-6 bg-primary-100 p-8 rounded-[2rem]">
+          <div className="max-w-4xl mx-auto text-primary-600 text-lg md:text-xl leading-relaxed mb-16 space-y-6 bg-primary-100 p-8 rounded-[2rem] text-left">
+             <h3 className="text-2xl font-bold text-primary-900 mb-4 text-center">Streamline Your Operations and Boost Satisfaction.</h3>
              <p>
-               Cascade Builder Services is a third party, new construction, warranty management company. We administer the builder's one-year limited warranty after closing, conduct new home orientations and provide quality assurance inspections for home builders and developers. With over 17 years in business and over 5000 homes managed, we ensure exceptional customer service using innovative procedures and technology. Our commitment, dedication and knowledge provide unrivaled value to everyone involved - Builders, Developers, Homeowners and Trade Contractors.
+               At Cascade Builder Services, we take the headache out of warranty management. We help builders and developers reduce operational costs by handling the heavy lifting:
              </p>
+             <div className="bg-white rounded-2xl p-6 shadow-sm border border-primary-200 my-6">
+               <ul className="list-none space-y-4">
+                 <li className="flex items-start gap-4">
+                   <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 mt-0.5 flex-shrink-0">
+                     <Check size={18} strokeWidth={3} />
+                   </div>
+                   <div>
+                     <strong className="text-primary-900 block text-lg">Administration</strong>
+                     <span className="text-primary-600">Full management of the builder’s one-year limited warranty.</span>
+                   </div>
+                 </li>
+                 <li className="flex items-start gap-4">
+                   <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 mt-0.5 flex-shrink-0">
+                     <Check size={18} strokeWidth={3} />
+                   </div>
+                   <div>
+                     <strong className="text-primary-900 block text-lg">Onboarding</strong>
+                     <span className="text-primary-600">Professional new home orientations.</span>
+                   </div>
+                 </li>
+                 <li className="flex items-start gap-4">
+                   <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 mt-0.5 flex-shrink-0">
+                     <Check size={18} strokeWidth={3} />
+                   </div>
+                   <div>
+                     <strong className="text-primary-900 block text-lg">Quality Control</strong>
+                     <span className="text-primary-600">Rigorous QA inspections.</span>
+                   </div>
+                 </li>
+               </ul>
+             </div>
              <p>
-               We've helped builders of all shapes and sizes reduce operational costs while increasing customer satisfaction levels. Our team of customer service specialists will dedicate their skills to do the same for your company. Contact us now to streamline your processes and start saving.
+               With a 17-year track record and over 5,000 homes managed, our team combines deep industry knowledge with cutting-edge technology to serve you, your trade contractors, and your homeowners. Don't let warranty issues slow you down—contact us to see how we can save you time and money.
              </p>
           </div>
           
@@ -365,7 +396,7 @@ ${formData.comments}
              </h3>
           </div>
           <p className="text-primary-600 text-lg max-w-2xl mx-auto">
-            Industry-leading builders chose Cascade Builder Services.
+            Industry-leading builders choose Cascade Builder Services.
           </p>
         </div>
 
@@ -627,6 +658,9 @@ ${formData.comments}
                 </div>
 
                 <form onSubmit={handleSubmitQuote} className="flex flex-col gap-4">
+                  {/* Netlify Hidden Form Field */}
+                  <input type="hidden" name="form-name" value="quote-request" />
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1">
                       <label className="text-sm font-bold text-primary-700 ml-2">First Name</label>
@@ -740,7 +774,7 @@ ${formData.comments}
                 </div>
                 <h3 className="text-3xl font-bold text-primary-900 mb-4">Request Sent!</h3>
                 <p className="text-primary-600 text-lg max-w-md mb-8">
-                  Thank you for your interest in Cascade Builder Services. We have prepared an email draft in your default client with your details.
+                  Thank you for your interest in Cascade Builder Services. We have received your details.
                 </p>
                 <button 
                   onClick={() => {
