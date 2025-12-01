@@ -25,6 +25,9 @@ const WebsiteView: React.FC = () => {
   // Media Modal State
   const [isMediaOpen, setIsMediaOpen] = useState(false);
 
+  // Enrollment Modal State
+  const [isEnrollmentOpen, setIsEnrollmentOpen] = useState(false);
+
   // Homeowner Portal State
   const [isPortalOptionsOpen, setIsPortalOptionsOpen] = useState(false);
   const [isClaimHelpOpen, setIsClaimHelpOpen] = useState(false);
@@ -35,7 +38,20 @@ const WebsiteView: React.FC = () => {
 
   // Deep Linking Effect
   useEffect(() => {
-    // Check for URL parameters to auto-open modals
+    const path = window.location.pathname;
+
+    // 1. Check Pathname for /enrollment
+    if (path === '/enrollment') {
+      setIsEnrollmentOpen(true);
+    }
+
+    // 2. Check Pathname for /warrantyrequests
+    if (path === '/warrantyrequests') {
+      setIsClaimHelpOpen(true);
+      setClaimHelpView('SELECT');
+    }
+
+    // 3. Check Query Params
     const params = new URLSearchParams(window.location.search);
     const modalParam = params.get('modal');
 
@@ -61,6 +77,20 @@ const WebsiteView: React.FC = () => {
       }
     }
   }, []);
+
+  // BuilderTrend Script Injection for Enrollment Form
+  useEffect(() => {
+    if (isEnrollmentOpen) {
+      const script = document.createElement('script');
+      script.src = "https://buildertrend.net/leads/contactforms/js/btClientContactForm.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [isEnrollmentOpen]);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -499,6 +529,36 @@ const WebsiteView: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Enrollment Form Modal */}
+      {isEnrollmentOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
+          <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsEnrollmentOpen(false)} />
+          <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-0 animate-in zoom-in-95 duration-200 flex flex-col">
+            
+            <button 
+              onClick={() => setIsEnrollmentOpen(false)}
+              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors z-50 bg-white/80 backdrop-blur"
+            >
+              <X size={24} />
+            </button>
+            
+            <div className="p-6 md:p-8 flex flex-col items-center">
+               <h3 className="text-2xl font-bold text-primary-900 mb-6">Enrollment Form</h3>
+               <div className="w-full">
+                 <iframe 
+                    src="https://buildertrend.net/leads/contactforms/ContactFormFrame.aspx?builderID=14554" 
+                    scrolling="no" 
+                    id="btIframe" 
+                    style={{ background: 'transparent', border: '0px', margin: '0 auto', width: '100%' }}
+                    title="BuilderTrend Enrollment Form"
+                 ></iframe>
+               </div>
+            </div>
+
+          </div>
+        </div>
+      )}
 
       {/* Homeowner Portal Options Modal */}
       {isPortalOptionsOpen && (
