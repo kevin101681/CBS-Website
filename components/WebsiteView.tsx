@@ -33,6 +33,35 @@ const WebsiteView: React.FC = () => {
   // Image Error State for Carousel Fallback
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
+  // Deep Linking Effect
+  useEffect(() => {
+    // Check for URL parameters to auto-open modals
+    const params = new URLSearchParams(window.location.search);
+    const modalParam = params.get('modal');
+
+    if (modalParam) {
+      switch (modalParam) {
+        case 'quote':
+          setIsQuoteOpen(true);
+          break;
+        case 'media':
+          setIsMediaOpen(true);
+          break;
+        case 'portal':
+          setIsPortalOptionsOpen(true);
+          break;
+        case 'claim':
+          setIsClaimHelpOpen(true);
+          setClaimHelpView('SELECT');
+          break;
+        case 'claim-desktop':
+          setIsClaimHelpOpen(true);
+          setClaimHelpView('DESKTOP');
+          break;
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
