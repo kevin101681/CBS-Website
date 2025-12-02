@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck } from 'lucide-react';
+import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck, Eye } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
   // Generate array for 57 images (Removed 58, 59, 60 as requested)
@@ -31,6 +31,7 @@ const WebsiteView: React.FC = () => {
   // Homeowner Portal State
   const [isPortalOptionsOpen, setIsPortalOptionsOpen] = useState(false);
   const [isClaimHelpOpen, setIsClaimHelpOpen] = useState(false);
+  const [isViewClaimsHelpOpen, setIsViewClaimsHelpOpen] = useState(false);
   const [claimHelpView, setClaimHelpView] = useState<'SELECT' | 'DESKTOP' | 'MOBILE_SELECT' | 'ANDROID' | 'IOS'>('SELECT');
 
   // Image Error State for Carousel Fallback
@@ -229,7 +230,7 @@ const WebsiteView: React.FC = () => {
           
           {/* Centered Logo with Badge */}
           <div className="flex flex-col items-center mb-4">
-            <div className="bg-white/40 backdrop-blur-md p-4 rounded-[2rem] shadow-xl border border-white/50 mb-4">
+            <div className="bg-white/40 backdrop-blur-md p-4 rounded-[2.5rem] shadow-xl border border-white/50 mb-4">
               <img 
                 src="/logo.png" 
                 alt="Cascade Builder Services Logo" 
@@ -728,32 +729,21 @@ const WebsiteView: React.FC = () => {
               {/* Card 1: Seattle Real Estate Radio */}
               <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
                 <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full md:w-48 rounded-xl shadow-md object-contain max-h-48 bg-white" />
+                  <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
+                    <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full h-full object-cover max-h-48" />
+                  </div>
                   <div className="flex-1 text-left">
                      <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
                      <p className="text-primary-600 mb-4 text-sm leading-relaxed">
                        Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
                      </p>
-                     <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-2">
+                     <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-2 bg-black">
                        <iframe 
-                         width="100%" 
-                         height="100%" 
-                         src="https://www.youtube.com/embed/HhfM43e_WEg?referrerPolicy=strict-origin-when-cross-origin" 
-                         title="YouTube video player" 
-                         frameBorder="0" 
-                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                         referrerPolicy="strict-origin-when-cross-origin" 
-                         allowFullScreen
+                          src="https://drive.google.com/file/d/12bN3I9-6jwx_PbQLu_Ybf_5DAuJZbaFO/preview" 
+                          className="w-full h-full border-0"
+                          allow="autoplay"
                        ></iframe>
                      </div>
-                     <a 
-                       href="https://www.youtube.com/watch?v=HhfM43e_WEg" 
-                       target="_blank" 
-                       rel="noopener noreferrer" 
-                       className="mt-4 block text-sm text-primary-500 underline hover:text-primary-700"
-                     >
-                       Watch on YouTube
-                     </a>
                   </div>
                 </div>
               </div>
@@ -761,7 +751,9 @@ const WebsiteView: React.FC = () => {
               {/* Card 2: Team Reba */}
               <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
                 <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <img src="/reba.png" alt="Team Reba Radio Show" className="w-full md:w-48 rounded-xl shadow-md object-contain max-h-48 bg-white" />
+                  <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
+                    <img src="/reba.png" alt="Team Reba Radio Show" className="w-full h-full object-cover max-h-48" />
+                  </div>
                   <div className="flex-1 text-left">
                      <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
                      <p className="text-primary-600 mb-2 text-sm leading-relaxed">
@@ -808,7 +800,7 @@ const WebsiteView: React.FC = () => {
                   href="https://buildertrend.net" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="w-full bg-primary-100 text-primary-800 py-4 rounded-full font-bold text-lg hover:bg-primary-200 transition-all flex items-center justify-center gap-2"
+                  className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                 >
                   <LogIn size={20} /> Login
                 </a>
@@ -822,6 +814,57 @@ const WebsiteView: React.FC = () => {
                 >
                   <HelpCircle size={20} /> How to Make a Claim
                 </button>
+                <button 
+                  onClick={() => {
+                    setIsPortalOptionsOpen(false);
+                    setIsViewClaimsHelpOpen(true);
+                  }}
+                  className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                >
+                  <Eye size={20} /> How to View Claims
+                </button>
+             </div>
+           </div>
+        </div>
+      )}
+
+      {/* How to View Claims Modal */}
+      {isViewClaimsHelpOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
+           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsViewClaimsHelpOpen(false)} />
+           <div className="relative bg-white rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200">
+             <button 
+              onClick={() => setIsViewClaimsHelpOpen(false)}
+              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors z-10"
+             >
+               <X size={24} />
+             </button>
+
+             <div className="mb-6 text-center">
+                <h3 className="text-2xl font-bold text-primary-900">How to View Claims</h3>
+             </div>
+
+             <div className="prose prose-slate text-primary-600 mb-8 max-w-none text-lg leading-relaxed space-y-4">
+               <p>
+                 After we've evaluated your warranty claims, determinations will be made and reflected on your Warranty page. This page defaults to showing Open and New claims only.
+               </p>
+               <p>
+                 Please note that your open claims list may be shorter than the amount of claims you've submitted. We will often combine several claims into one that are all assigned to the same contractor.
+               </p>
+               <p>
+                 Completed claims and claims marked as non-warranty do not show by default. You will need to use the filter option to see these claims. Clicking on the title of the claim will show more details in the description field.
+               </p>
+               <p className="font-bold text-primary-900">
+                 Please watch the video clip below which shows how to use the filter options.
+               </p>
+             </div>
+
+             <div className="rounded-xl overflow-hidden shadow-lg border border-primary-200 bg-black aspect-video">
+               <iframe 
+                  src="https://drive.google.com/file/d/1_7MB7ULBXcUIo4tG9qiH23JGbW2IBJTe/preview" 
+                  className="w-full h-full border-0"
+                  allow="autoplay"
+               ></iframe>
              </div>
            </div>
         </div>
