@@ -38,7 +38,8 @@ const WebsiteView: React.FC = () => {
 
   // Deep Linking Effect
   useEffect(() => {
-    const path = window.location.pathname;
+    // Normalize path by removing trailing slash for consistent matching
+    const path = window.location.pathname.replace(/\/$/, '');
 
     // 1. Check Pathname for /enrollment
     if (path === '/enrollment') {
@@ -221,13 +222,15 @@ const WebsiteView: React.FC = () => {
         {/* Content */}
         <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-4 md:mt-0 p-8">
           
-          {/* Centered Logo */}
+          {/* Centered Logo with Badge */}
           <div className="flex flex-col items-center mb-4">
-            <img 
-              src="/logo.png" 
-              alt="Cascade Builder Services Logo" 
-              className="h-24 md:h-32 w-auto object-contain drop-shadow-sm mb-2"
-            />
+            <div className="bg-white/80 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl border border-white/50 mb-4">
+              <img 
+                src="/logo.png" 
+                alt="Cascade Builder Services Logo" 
+                className="h-24 md:h-32 w-auto object-contain drop-shadow-sm"
+              />
+            </div>
             <div className="bg-primary-100 text-primary-700 px-4 py-1 rounded-full text-sm font-bold tracking-wide shadow-sm border border-primary-200">
               Since 2008
             </div>
@@ -506,7 +509,7 @@ const WebsiteView: React.FC = () => {
                     <UserCheck size={28} className="text-primary-700"/> Homeowners
                   </h4>
                   <p className="text-lg text-primary-600 leading-relaxed">
-                    With questions or warranty requests, please <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="text-primary-800 font-bold underline hover:text-primary-600 transition-colors">login to your online account above</button> and send us a message or submit a warranty request.
+                    With questions or warranty requests, please <button onClick={() => setIsPortalOptionsOpen(true)} className="text-primary-800 font-bold underline hover:text-primary-600 transition-colors">login to your online account</button> and send us a message or submit a warranty request.
                   </p>
                </div>
 
@@ -548,411 +551,13 @@ const WebsiteView: React.FC = () => {
                <div className="w-full">
                  <iframe 
                     src="https://buildertrend.net/leads/contactforms/ContactFormFrame.aspx?builderID=14554" 
-                    scrolling="no" 
                     id="btIframe" 
-                    style={{ background: 'transparent', border: '0px', margin: '0 auto', width: '100%' }}
-                    title="BuilderTrend Enrollment Form"
-                 ></iframe>
+                    className="w-full border-none min-h-[600px]"
+                    scrolling="no"
+                    title="Enrollment Form"
+                 />
                </div>
             </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* Homeowner Portal Options Modal */}
-      {isPortalOptionsOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
-          <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsPortalOptionsOpen(false)} />
-          <div className="relative bg-white rounded-[2rem] w-full max-w-sm p-8 shadow-2xl animate-in zoom-in-95 duration-200">
-             <button 
-              onClick={() => setIsPortalOptionsOpen(false)}
-              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
-            >
-              <X size={24} />
-            </button>
-            <h3 className="text-2xl font-bold text-center text-primary-900 mb-8">Homeowner Portal</h3>
-            <div className="flex flex-col gap-4">
-              <a 
-                href="https://buildertrend.net" 
-                target="_blank" 
-                rel="noreferrer"
-                className="bg-primary-700 text-white p-4 rounded-full font-bold text-center hover:bg-primary-600 transition-all flex items-center justify-center gap-2 shadow-md"
-              >
-                Login <LogIn size={20} />
-              </a>
-              <button 
-                onClick={() => {
-                  setIsPortalOptionsOpen(false);
-                  setIsClaimHelpOpen(true);
-                  setClaimHelpView('SELECT');
-                }}
-                className="bg-primary-100 text-primary-900 p-4 rounded-full font-bold hover:bg-primary-200 transition-all flex items-center justify-center gap-2"
-              >
-                How to Make a Claim <HelpCircle size={20} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* How to Make a Claim Modal */}
-      {isClaimHelpOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
-          <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsClaimHelpOpen(false)} />
-          <div className="relative bg-white rounded-[2rem] w-full max-w-3xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200 flex flex-col">
-            
-            <button 
-              onClick={() => setIsClaimHelpOpen(false)}
-              className="absolute top-6 right-6 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors z-20"
-            >
-              <X size={24} />
-            </button>
-
-            {claimHelpView === 'SELECT' && (
-              <div className="flex flex-col items-center text-center py-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-primary-900 mb-6">How to Submit Warranty Requests</h3>
-                <p className="text-lg text-primary-600 max-w-lg mb-8">
-                  If you have not activated your online account, please email us at <a href="mailto:info@cascadebuilderservices.com" className="text-primary-800 font-bold underline">info@cascadebuilderservices.com</a>.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-                   <button 
-                     onClick={() => setClaimHelpView('DESKTOP')}
-                     className="flex-1 bg-primary-700 text-white p-6 rounded-3xl hover:bg-primary-600 transition-all flex flex-col items-center gap-4 group shadow-md"
-                   >
-                     <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Laptop size={32} />
-                     </div>
-                     <span className="text-xl font-bold">Desktop</span>
-                   </button>
-
-                   <button 
-                     onClick={() => setClaimHelpView('MOBILE_SELECT')}
-                     className="flex-1 bg-primary-100 text-primary-900 p-6 rounded-3xl hover:bg-primary-200 transition-all flex flex-col items-center gap-4 group"
-                   >
-                     <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                        <Smartphone size={32} />
-                     </div>
-                     <span className="text-xl font-bold">Mobile</span>
-                   </button>
-                </div>
-              </div>
-            )}
-
-            {claimHelpView === 'MOBILE_SELECT' && (
-              <div className="flex flex-col items-center text-center py-8">
-                <button 
-                  onClick={() => setClaimHelpView('SELECT')}
-                  className="absolute top-6 left-6 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors flex items-center gap-1"
-                >
-                  <ArrowLeft size={20} /> Back
-                </button>
-                <h3 className="text-2xl md:text-3xl font-bold text-primary-900 mb-8">Select Your Device</h3>
-                
-                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-                   <button 
-                     onClick={() => setClaimHelpView('ANDROID')}
-                     className="flex-1 bg-white border border-primary-200 p-6 rounded-3xl hover:bg-primary-50 transition-all flex flex-col items-center gap-4 group shadow-sm hover:shadow-md"
-                   >
-                     <div className="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Smartphone size={32} />
-                     </div>
-                     <span className="text-xl font-bold text-primary-900">Android</span>
-                   </button>
-
-                   <button 
-                     onClick={() => setClaimHelpView('IOS')}
-                     className="flex-1 bg-white border border-primary-200 p-6 rounded-3xl hover:bg-primary-50 transition-all flex flex-col items-center gap-4 group shadow-sm hover:shadow-md"
-                   >
-                     <div className="w-16 h-16 bg-slate-100 text-slate-800 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Smartphone size={32} />
-                     </div>
-                     <span className="text-xl font-bold text-primary-900">iOS</span>
-                   </button>
-                </div>
-              </div>
-            )}
-
-            {claimHelpView === 'ANDROID' && (
-              <div className="flex flex-col gap-8 pb-8">
-                 <div className="flex items-center gap-4 border-b border-primary-100 pb-6">
-                  <button 
-                    onClick={() => setClaimHelpView('MOBILE_SELECT')}
-                    className="p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
-                  >
-                    <ArrowLeft size={24} />
-                  </button>
-                  <h3 className="text-2xl font-bold text-primary-900">Android Instructions</h3>
-                </div>
-
-                <div className="space-y-10">
-                   {/* Step 1 */}
-                   <div>
-                     <p className="text-lg text-primary-700 mb-4 leading-relaxed font-medium">
-                       Download and install the Android app below:
-                     </p>
-                     <a href="https://play.google.com/store/apps/details?id=com.BuilderTREND.btMobileApp" target="_blank" rel="noreferrer" className="inline-block hover:opacity-80 transition-opacity">
-                       <img src="/playstore.png" alt="Get it on Google Play" className="h-16" />
-                     </a>
-                   </div>
-
-                   {/* Step 2 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Login to the app:
-                     </p>
-                     <img 
-                       src="/alogin.png" 
-                       alt="Login Screen" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 3 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Click on "Warranty Items"
-                     </p>
-                     <p className="text-sm text-red-500 mb-4 bg-red-50 p-3 rounded-xl border border-red-100 font-medium">
-                       (DO NOT submit requests under the “To-Do’s” tab. We will not be notified and doing so will delay the processing of your claims)
-                     </p>
-                     <img 
-                       src="/aitems.png" 
-                       alt="Warranty Items Tab" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 4 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       To add a new warranty request, click the blue circle icon on the bottom right corner:
-                     </p>
-                     <img 
-                       src="/aadd.png" 
-                       alt="Add Button" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 5 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Please submit warranty requests individually. Fill out the form including all pertinent information.
-                     </p>
-                     <img 
-                       src="/aind.png" 
-                       alt="Fill Form" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 6 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Please attach pictures and/or video by clicking the Add Attachment text:
-                     </p>
-                     <img 
-                       src="/apic.png" 
-                       alt="Add Attachment" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Final Step */}
-                   <div className="bg-green-50 p-6 rounded-3xl border border-green-100">
-                     <p className="text-lg text-green-800 font-medium">
-                       After filling out the details and attaching pictures/videos, click Save at the top right corner. After you've filled out and saved each request, individually, we'll contact you by the end of the next business day explaining the next steps.
-                     </p>
-                   </div>
-                </div>
-              </div>
-            )}
-
-            {claimHelpView === 'IOS' && (
-              <div className="flex flex-col gap-8 pb-8">
-                 <div className="flex items-center gap-4 border-b border-primary-100 pb-6">
-                  <button 
-                    onClick={() => setClaimHelpView('MOBILE_SELECT')}
-                    className="p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
-                  >
-                    <ArrowLeft size={24} />
-                  </button>
-                  <h3 className="text-2xl font-bold text-primary-900">iOS Instructions</h3>
-                </div>
-
-                <div className="space-y-10">
-                   {/* Step 1 */}
-                   <div>
-                     <p className="text-lg text-primary-700 mb-4 leading-relaxed font-medium">
-                       Download and install the iOS app below:
-                     </p>
-                     <a href="https://apps.apple.com/us/app/buildertrend/id504370616" target="_blank" rel="noreferrer" className="inline-block hover:opacity-80 transition-opacity">
-                       <img src="/appstore.png" alt="Download on the App Store" className="h-16" />
-                     </a>
-                   </div>
-
-                   {/* Step 2 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Login to the app:
-                     </p>
-                     <img 
-                       src="/ilogin.png" 
-                       alt="Login Screen" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 3 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Click on "Warranty Items"
-                     </p>
-                     <p className="text-sm text-red-500 mb-4 bg-red-50 p-3 rounded-xl border border-red-100 font-medium">
-                       (DO NOT submit requests under the “To-Do’s” tab. We will not be notified and doing so will delay the processing of your claims)
-                     </p>
-                     <img 
-                       src="/iitems.png" 
-                       alt="Warranty Items Tab" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 4 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       To add a new warranty request, click the blue circle icon on the bottom right corner:
-                     </p>
-                     <img 
-                       src="/iadd.png" 
-                       alt="Add Button" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 5 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Please submit warranty requests individually. Fill out the form including all pertinent information.
-                     </p>
-                     <img 
-                       src="/aind.png" 
-                       alt="Fill Form" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 6 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Please attach pictures and/or video by clicking the Add Attachment text:
-                     </p>
-                     <img 
-                       src="/ipic.png" 
-                       alt="Add Attachment" 
-                       className="w-full max-w-sm mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Final Step */}
-                   <div className="bg-green-50 p-6 rounded-3xl border border-green-100">
-                     <p className="text-lg text-green-800 font-medium">
-                       After filling out the details and attaching pictures/videos, click Save at the top right corner. After you've filled out and saved each request, individually, we'll contact you by the end of the next business day explaining the next steps.
-                     </p>
-                   </div>
-                </div>
-              </div>
-            )}
-
-            {claimHelpView === 'DESKTOP' && (
-              <div className="flex flex-col gap-8 pb-8">
-                <div className="flex items-center gap-4 border-b border-primary-100 pb-6">
-                  <button 
-                    onClick={() => setClaimHelpView('SELECT')}
-                    className="p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
-                  >
-                    <ArrowLeft size={24} />
-                  </button>
-                  <h3 className="text-2xl font-bold text-primary-900">Desktop Instructions</h3>
-                </div>
-
-                <div className="space-y-10">
-                   {/* Step 1 */}
-                   <div>
-                     <p className="text-lg text-primary-700 mb-4 leading-relaxed">
-                       The first step is to login to your account. You can login here: <a href="https://buildertrend.net" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center px-4 py-1 ml-1 bg-primary-700 text-white text-sm font-bold rounded-full hover:bg-primary-600 align-middle">Login</a>
-                     </p>
-                   </div>
-
-                   {/* Step 2 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Click the "Project Management" tab at the top of the page and click "Warranty"
-                     </p>
-                     <p className="text-sm text-red-500 mb-4 bg-red-50 p-3 rounded-xl border border-red-100 font-medium">
-                       (DO NOT submit requests under the “To-Do’s” tab. We will not be notified and doing so will delay the processing of your claims)
-                     </p>
-                     <img 
-                       src="/warranty.png" 
-                       alt="Click Project Management then Warranty" 
-                       className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 3 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Click the blue “+ Claim” button at the top right:
-                     </p>
-                     <img 
-                       src="/newclaim.png" 
-                       alt="Click New Claim Button" 
-                       className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 4 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Please submit warranty requests individually. Fill out the form including all pertinent information. Please include pictures and/or videos by clicking the Add button below Attachments. Here is an example:
-                     </p>
-                     <img 
-                       src="/claimdetails.png" 
-                       alt="Claim Details Form Example" 
-                       className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-sm object-contain"
-                     />
-                   </div>
-
-                   {/* Step 5 */}
-                   <div className="bg-primary-50 p-6 rounded-3xl border border-primary-100">
-                     <p className="text-lg text-primary-700 mb-4 font-medium">
-                       Once clicking Add, you can attach videos and pictures by either clicking Browse My Computer or simply dragging and dropping the files to the area indicated. Once you've added the files, click the Upload button at the bottom right corner:
-                     </p>
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                       <img 
-                         src="/upload.png" 
-                         alt="Upload Interface" 
-                         className="w-full h-48 object-contain bg-white rounded-xl border border-primary-200 shadow-sm mx-auto"
-                       />
-                       <img 
-                         src="/upload2.png" 
-                         alt="Upload Confirmation" 
-                         className="w-full h-48 object-contain bg-white rounded-xl border border-primary-200 shadow-sm mx-auto"
-                       />
-                     </div>
-                   </div>
-
-                   {/* Step 6 */}
-                   <div className="bg-green-50 p-6 rounded-3xl border border-green-100">
-                     <p className="text-lg text-green-800 font-medium">
-                       After you've entered all details and attached pictures and/or videos, click Save at the bottom right corner. Submit all requests individually using this procedure. Once you've submitted all of your warranty requests, we'll contact you by the end of the next business day explaining the next steps.
-                     </p>
-                   </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -961,149 +566,131 @@ const WebsiteView: React.FC = () => {
       {isQuoteOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsQuoteOpen(false)} />
-          <div className="relative bg-white rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200 flex flex-col">
+          <div className="relative bg-white rounded-[2rem] w-full max-w-lg shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200 overflow-y-auto max-h-[90vh] no-scrollbar">
             
-            {/* Close Button */}
             <button 
               onClick={() => setIsQuoteOpen(false)}
-              className="absolute top-6 right-6 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors"
             >
               <X size={24} />
             </button>
 
             {!isSubmitted ? (
               <>
-                <div className="mb-6">
-                  <h3 className="text-3xl font-bold text-primary-900 mb-2">Get a Quote</h3>
-                  <p className="text-primary-500">Tell us about your needs and we'll build a custom proposal for you.</p>
-                </div>
-
-                <form onSubmit={handleSubmitQuote} className="flex flex-col gap-4">
-                  {/* Netlify Hidden Form Field */}
-                  <input type="hidden" name="form-name" value="quote-request" />
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1">
-                      <label className="text-sm font-bold text-primary-700 ml-2">First Name</label>
+                <h3 className="text-2xl font-bold text-primary-900 mb-2 text-center">Get a Quote</h3>
+                <p className="text-primary-500 text-center mb-6">Tell us about your project needs.</p>
+                
+                <form onSubmit={handleSubmitQuote} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">First Name</label>
                       <input 
-                        required 
+                        type="text" 
                         name="firstName"
+                        required
                         value={formData.firstName}
                         onChange={handleInputChange}
-                        className="w-full bg-primary-50 border border-primary-200 rounded-2xl px-5 py-3 focus:border-primary-500 focus:ring-0 outline-none" 
-                        placeholder="Jane"
+                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-sm font-bold text-primary-700 ml-2">Last Name</label>
+                    <div>
+                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Last Name</label>
                       <input 
-                        required 
+                        type="text" 
                         name="lastName"
+                        required
                         value={formData.lastName}
                         onChange={handleInputChange}
-                        className="w-full bg-primary-50 border border-primary-200 rounded-2xl px-5 py-3 focus:border-primary-500 focus:ring-0 outline-none" 
-                        placeholder="Doe"
+                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1">
-                      <label className="text-sm font-bold text-primary-700 ml-2">Company Name</label>
-                      <input 
-                        required 
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="w-full bg-primary-50 border border-primary-200 rounded-2xl px-5 py-3 focus:border-primary-500 focus:ring-0 outline-none" 
-                        placeholder="Acme Builders"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-sm font-bold text-primary-700 ml-2">Annual Closings</label>
-                      <input 
-                        required 
-                        name="closings"
-                        value={formData.closings}
-                        onChange={handleInputChange}
-                        type="text"
-                        className="w-full bg-primary-50 border border-primary-200 rounded-2xl px-5 py-3 focus:border-primary-500 focus:ring-0 outline-none" 
-                        placeholder="e.g. 50"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Company Name</label>
+                    <input 
+                      type="text" 
+                      name="company"
+                      required
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Annual Closings</label>
+                    <input 
+                      type="text" 
+                      name="closings"
+                      value={formData.closings}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                    />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1">
-                      <label className="text-sm font-bold text-primary-700 ml-2">Email</label>
+                    <div>
+                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Phone</label>
                       <input 
-                        required 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        type="email"
-                        className="w-full bg-primary-50 border border-primary-200 rounded-2xl px-5 py-3 focus:border-primary-500 focus:ring-0 outline-none" 
-                        placeholder="jane@example.com"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-sm font-bold text-primary-700 ml-2">Phone</label>
-                      <input 
-                        required 
+                        type="tel" 
                         name="phone"
+                        required
                         value={formData.phone}
                         onChange={handleInputChange}
-                        type="tel"
-                        className="w-full bg-primary-50 border border-primary-200 rounded-2xl px-5 py-3 focus:border-primary-500 focus:ring-0 outline-none" 
-                        placeholder="(555) 123-4567"
+                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Email</label>
+                      <input 
+                        type="email" 
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
                       />
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label className="text-sm font-bold text-primary-700 ml-2">Comments</label>
+                  <div>
+                    <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Comments</label>
                     <textarea 
                       name="comments"
                       value={formData.comments}
                       onChange={handleInputChange}
-                      className="w-full bg-primary-50 border border-primary-200 rounded-2xl px-5 py-3 focus:border-primary-500 focus:ring-0 outline-none min-h-[120px]" 
-                      placeholder="How can we help you?"
-                    />
+                      rows={4}
+                      className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all resize-none"
+                    ></textarea>
                   </div>
 
-                  <button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="mt-4 bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all flex items-center justify-center gap-2"
-                  >
-                    {isSubmitting ? <Loader2 className="animate-spin" /> : 'Submit'}
-                  </button>
+                  <div className="pt-2">
+                    <button 
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-primary-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? <Loader2 className="animate-spin" /> : 'Submit'}
+                    </button>
+                  </div>
                   
-                  <div className="mt-4 text-center border-t border-primary-100 pt-4">
-                     <p className="text-primary-500 font-medium">Need immediate assistance?</p>
-                     <a href="tel:8884295468" className="text-primary-700 font-bold text-xl flex items-center justify-center gap-2 mt-1 hover:underline">
-                       <Phone size={20} />
-                       888-429-5468
-                     </a>
+                  <div className="text-center pt-4 border-t border-primary-100">
+                    <p className="text-primary-500 font-medium">Questions? Call us.</p>
+                    <a href="tel:8884295468" className="text-xl font-bold text-primary-700 hover:text-primary-900">888-429-5468</a>
                   </div>
                 </form>
               </>
             ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
-                  <Check size={40} />
+              <div className="text-center py-12">
+                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Check size={40} strokeWidth={3} />
                 </div>
-                <h3 className="text-3xl font-bold text-primary-900 mb-4">Request Sent!</h3>
-                <p className="text-primary-600 text-lg max-w-md mb-8">
-                  Thank you for your interest in Cascade Builder Services. We have received your details.
-                </p>
+                <h3 className="text-2xl font-bold text-primary-900 mb-2">Request Sent!</h3>
+                <p className="text-primary-600 mb-8">Thank you for contacting us. We will get back to you shortly.</p>
                 <button 
-                  onClick={() => {
-                    setIsQuoteOpen(false);
-                    setIsSubmitted(false);
-                    setFormData({ firstName: '', lastName: '', company: '', phone: '', email: '', closings: '', comments: '' });
-                  }}
-                  className="bg-primary-100 text-primary-900 px-8 py-3 rounded-full font-bold hover:bg-primary-200 transition-colors"
+                  onClick={() => setIsQuoteOpen(false)}
+                  className="bg-primary-100 text-primary-700 px-8 py-3 rounded-full font-bold hover:bg-primary-200 transition-colors"
                 >
                   Close
                 </button>
@@ -1113,115 +700,461 @@ const WebsiteView: React.FC = () => {
         </div>
       )}
 
-      {/* View Media Modal */}
+      {/* Media Modal */}
       {isMediaOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
-          <div className="absolute inset-0 bg-primary-900/60 backdrop-blur-sm" onClick={() => setIsMediaOpen(false)} />
-          <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200 flex flex-col">
-            
+          <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsMediaOpen(false)} />
+          <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200">
             <button 
               onClick={() => setIsMediaOpen(false)}
-              className="absolute top-6 right-6 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors z-10"
             >
               <X size={24} />
             </button>
-
-            <div className="flex justify-center md:justify-start mb-8">
-              <div className="inline-block px-10 py-3 rounded-full bg-primary-200">
-                <h3 className="text-2xl font-bold text-primary-900 leading-none">Media</h3>
-              </div>
-            </div>
             
-            <div className="flex flex-col gap-10">
-              
-              {/* Section 1: Seattle Real Estate Radio */}
-              <div className="bg-primary-100 rounded-3xl p-6 border border-primary-200 shadow-sm">
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                   <img 
-                      src="/nossum.png" 
-                      alt="Christian Nossum and Dan Keller" 
-                      className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover shadow-sm bg-primary-50"
-                   />
-                   <div className="flex-1">
-                       <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
-                       <p className="text-primary-600 mb-4 text-lg">
-                          Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
-                       </p>
-                   </div>
-                </div>
-                
-                {/* YouTube Embed */}
-                <div className="flex flex-col gap-2 mt-4">
-                  <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-lg border border-primary-200 bg-primary-900 relative">
-                    <iframe 
-                      width="100%" 
-                      height="100%" 
-                      src="https://www.youtube.com/embed/HhfM43e_WEg?rel=0&modestbranding=1" 
-                      title="Cascade Builder Services on Seattle Real Estate Radio" 
-                      frameBorder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                  <div className="text-center bg-white p-4 rounded-xl mt-2">
-                    <p className="text-sm text-primary-500 mb-2">
-                      Note: If the video fails to load due to browser privacy settings, please use the direct link below.
-                    </p>
-                    <a 
-                      href="https://youtu.be/HhfM43e_WEg" 
-                      target="_blank" 
-                      rel="noreferrer" 
-                      className="inline-flex items-center gap-2 px-6 py-2 bg-red-600 text-white rounded-full text-sm font-bold hover:bg-red-700 transition-colors shadow-sm"
-                    >
-                      Watch on YouTube <ExternalLink size={14} />
-                    </a>
-                  </div>
-                </div>
+            <div className="text-center mb-8">
+               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 mb-4 shadow-sm">
+                <h3 className="text-xl font-medium text-primary-900 leading-none">Media</h3>
               </div>
-
-              {/* Section 2: Team Reba */}
-              <div className="bg-primary-100 rounded-3xl p-6 border border-primary-200 shadow-sm">
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                   <img 
-                      src="/reba.png" 
-                      alt="Team Reba" 
-                      className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover shadow-sm bg-primary-50"
-                   />
-                   <div className="flex-1">
-                       <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
-                       <p className="text-primary-600 mb-2 text-lg">
-                          Kevin Pierce joins Team Reba's radio show to discuss Cascade Builder Services and how they provide unrivaled value to home builders in Washington.
-                       </p>
-                       <p className="text-sm font-bold text-primary-500 uppercase tracking-wide mb-6">
-                          Airs every Tuesday at 3pm on KKOL 1300AM
-                       </p>
-                       
-                       <a 
-                          href="https://teamreba.com/2017/02/24/this-weeks-open-house-recap-third-party-warranties-cascade-builder-services/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-2 bg-primary-700 text-white px-6 py-3 rounded-full font-bold hover:bg-primary-600 transition-colors shadow-md group"
-                       >
-                          Click here to listen! <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
-                       </a>
-                   </div>
-                </div>
-              </div>
-
             </div>
 
-            <div className="mt-8 flex justify-end">
-              <button 
-                onClick={() => setIsMediaOpen(false)}
-                className="bg-primary-100 text-primary-900 px-8 py-3 rounded-full font-bold hover:bg-primary-200 transition-colors"
-              >
-                Close
-              </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Card 1: Seattle Real Estate Radio */}
+              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200 flex flex-col items-center text-center">
+                 <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full rounded-xl mb-4 shadow-md" />
+                 <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
+                 <p className="text-primary-600 mb-6 text-sm leading-relaxed">
+                   Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
+                 </p>
+                 <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-auto">
+                   <iframe 
+                     width="100%" 
+                     height="100%" 
+                     src="https://www.youtube.com/embed/HhfM43e_WEg?referrerPolicy=strict-origin-when-cross-origin" 
+                     title="YouTube video player" 
+                     frameBorder="0" 
+                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                     referrerPolicy="strict-origin-when-cross-origin" 
+                     allowFullScreen
+                   ></iframe>
+                 </div>
+                 <a 
+                   href="https://www.youtube.com/watch?v=HhfM43e_WEg" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   className="mt-4 text-sm text-primary-500 underline hover:text-primary-700"
+                 >
+                   Watch on YouTube
+                 </a>
+              </div>
+
+              {/* Card 2: Team Reba */}
+              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200 flex flex-col items-center text-center">
+                 <img src="/reba.png" alt="Team Reba Radio Show" className="w-full rounded-xl mb-4 shadow-md" />
+                 <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
+                 <p className="text-primary-600 mb-4 text-sm leading-relaxed">
+                   Kevin Pierce joins Team Reba's radio show to discuss Cascade Builder Services and how they provide unrivaled value to home builders in Washington.
+                 </p>
+                 <p className="text-primary-700 font-medium mb-6 text-sm">
+                   Airs every Tuesday at 3pm on KKOL 1300AM.
+                 </p>
+                 <a 
+                   href="https://teamreba.com/2017/02/24/this-weeks-open-house-recap-third-party-warranties-cascade-builder-services/" 
+                   target="_blank" 
+                   rel="noreferrer"
+                   className="mt-auto bg-primary-700 text-white px-8 py-3 rounded-full font-bold hover:bg-primary-600 transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+                 >
+                   Click here to listen! <ExternalLink size={18} />
+                 </a>
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Portal Options Modal */}
+      {isPortalOptionsOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
+           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsPortalOptionsOpen(false)} />
+           <div className="relative bg-white rounded-[2rem] w-full max-w-sm shadow-2xl p-8 animate-in zoom-in-95 duration-200 text-center">
+             <button 
+              onClick={() => setIsPortalOptionsOpen(false)}
+              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors"
+             >
+               <X size={24} />
+             </button>
+
+             <div className="mb-6">
+               <h3 className="text-2xl font-bold text-primary-900">Homeowner Portal</h3>
+               <p className="text-primary-500 mt-1">Select an option to continue</p>
+             </div>
+
+             <div className="flex flex-col gap-4">
+                <a 
+                  href="https://buildertrend.net" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="w-full bg-primary-100 text-primary-800 py-4 rounded-full font-bold text-lg hover:bg-primary-200 transition-all flex items-center justify-center gap-2"
+                >
+                  <LogIn size={20} /> Login
+                </a>
+                <button 
+                  onClick={() => {
+                    setIsPortalOptionsOpen(false);
+                    setIsClaimHelpOpen(true);
+                    setClaimHelpView('SELECT');
+                  }}
+                  className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                >
+                  <HelpCircle size={20} /> How to Make a Claim
+                </button>
+             </div>
+           </div>
+        </div>
+      )}
+
+      {/* How to Make a Claim Modal */}
+      {isClaimHelpOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
+           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsClaimHelpOpen(false)} />
+           <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95 duration-200">
+             
+             {/* Header */}
+             <div className="p-6 border-b border-primary-100 flex items-center justify-between bg-white z-10">
+               <div className="flex items-center gap-2">
+                 {claimHelpView !== 'SELECT' && (
+                   <button 
+                     onClick={() => setClaimHelpView(claimHelpView === 'ANDROID' || claimHelpView === 'IOS' ? 'MOBILE_SELECT' : 'SELECT')}
+                     className="p-2 -ml-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
+                   >
+                     <ArrowLeft size={24} />
+                   </button>
+                 )}
+                 <h3 className="text-xl md:text-2xl font-bold text-primary-900">How to Submit Warranty Requests</h3>
+               </div>
+               <button 
+                onClick={() => setIsClaimHelpOpen(false)}
+                className="p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors"
+               >
+                 <X size={24} />
+               </button>
+             </div>
+
+             {/* Content Scroll Area */}
+             <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+               
+               {/* Selection View */}
+               {claimHelpView === 'SELECT' && (
+                 <div className="flex flex-col items-center text-center max-w-2xl mx-auto py-8">
+                   <p className="text-lg text-primary-600 mb-12">
+                     If you have not activated your online account, please email us at <a href="mailto:info@cascadebuilderservices.com" className="text-primary-800 font-bold underline">info@cascadebuilderservices.com</a>.
+                   </p>
+                   
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                     <button 
+                       onClick={() => setClaimHelpView('DESKTOP')}
+                       className="flex flex-col items-center justify-center gap-4 p-8 rounded-[2rem] bg-primary-200 border border-primary-300 hover:bg-primary-300 hover:border-primary-400 hover:shadow-lg transition-all group"
+                     >
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-primary-400 group-hover:text-primary-700 shadow-sm transition-colors">
+                          <Laptop size={40} />
+                        </div>
+                        <span className="text-xl font-bold text-primary-900">Desktop</span>
+                     </button>
+
+                     <button 
+                       onClick={() => setClaimHelpView('MOBILE_SELECT')}
+                       className="flex flex-col items-center justify-center gap-4 p-8 rounded-[2rem] bg-primary-200 border border-primary-300 hover:bg-primary-300 hover:border-primary-400 hover:shadow-lg transition-all group"
+                     >
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-primary-400 group-hover:text-primary-700 shadow-sm transition-colors">
+                          <Smartphone size={40} />
+                        </div>
+                        <span className="text-xl font-bold text-primary-900">Mobile</span>
+                     </button>
+                   </div>
+                 </div>
+               )}
+
+               {/* Desktop View */}
+               {claimHelpView === 'DESKTOP' && (
+                 <div className="max-w-3xl mx-auto space-y-12 pb-12">
+                    <div className="space-y-4">
+                      <h4 className="text-xl font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-primary-700 text-white flex items-center justify-center text-sm font-bold">1</span>
+                        Login to your account
+                      </h4>
+                      <div className="pl-11">
+                         <p className="text-primary-600 mb-4">The first step is to login to your account.</p>
+                         <a href="https://buildertrend.net" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-primary-100 text-primary-800 px-6 py-2 rounded-full font-bold hover:bg-primary-200 transition-colors">
+                           <LogIn size={18} /> Login Here
+                         </a>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-xl font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-primary-700 text-white flex items-center justify-center text-sm font-bold">2</span>
+                        Navigate to Warranty
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-primary-600">
+                           Click the "Project Management" tab at the top of the page and click "Warranty".
+                         </p>
+                         <div className="bg-red-50 text-red-800 p-4 rounded-xl text-sm border border-red-200 font-medium">
+                           ⚠️ DO NOT submit requests under the “To-Do’s” tab. We will not be notified and doing so will delay the processing of your claims.
+                         </div>
+                         <img src="/warranty.png" alt="Navigate to Warranty Tab" className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-md object-contain" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-xl font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-primary-700 text-white flex items-center justify-center text-sm font-bold">3</span>
+                        Create New Claim
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-primary-600">
+                           Click the blue “+ Claim” button at the top right.
+                         </p>
+                         <img src="/newclaim.png" alt="Click New Claim Button" className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-md object-contain" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-xl font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-primary-700 text-white flex items-center justify-center text-sm font-bold">4</span>
+                        Enter Details
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-primary-600">
+                           Please submit warranty requests individually. Fill out the form including all pertinent information. Please include pictures and/or videos by clicking the Add button below Attachments.
+                         </p>
+                         <img src="/claimdetails.png" alt="Claim Form Details" className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-md object-contain" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-xl font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-primary-700 text-white flex items-center justify-center text-sm font-bold">5</span>
+                        Upload Files
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-primary-600">
+                           Once clicking Add, you can attach videos and pictures by either clicking Browse My Computer or simply dragging and dropping the files. Click "Upload" when finished.
+                         </p>
+                         <div className="flex flex-col md:flex-row gap-4">
+                            <img src="/upload.png" alt="Upload Interface" className="w-full md:w-1/2 h-48 object-contain rounded-xl border border-primary-200 shadow-md bg-primary-100" />
+                            <img src="/upload2.png" alt="Upload Button" className="w-full md:w-1/2 h-48 object-contain rounded-xl border border-primary-200 shadow-md bg-primary-100" />
+                         </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-green-50 p-6 rounded-2xl border border-green-200 flex items-start gap-4">
+                      <Check className="text-green-700 mt-1 flex-shrink-0" />
+                      <div>
+                        <h5 className="font-bold text-green-800 mb-1">Final Step</h5>
+                        <p className="text-green-800 text-sm">
+                          After you've entered all details and attached pictures/videos, click Save at the bottom right corner. Once you've submitted all of your warranty requests, we'll contact you by the end of the next business day explaining the next steps.
+                        </p>
+                      </div>
+                    </div>
+                 </div>
+               )}
+
+               {/* Mobile OS Select View */}
+               {claimHelpView === 'MOBILE_SELECT' && (
+                 <div className="flex flex-col items-center text-center max-w-2xl mx-auto py-8">
+                   <h4 className="text-xl font-bold text-primary-900 mb-8">Select your device type</h4>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                     <button 
+                       onClick={() => setClaimHelpView('ANDROID')}
+                       className="flex flex-col items-center justify-center gap-4 p-8 rounded-[2rem] bg-primary-200 border border-primary-300 hover:bg-primary-300 hover:border-primary-400 hover:shadow-lg transition-all group"
+                     >
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-primary-400 group-hover:text-green-600 shadow-sm transition-colors">
+                          <Smartphone size={40} />
+                        </div>
+                        <span className="text-xl font-bold text-primary-900">Android</span>
+                     </button>
+
+                     <button 
+                       onClick={() => setClaimHelpView('IOS')}
+                       className="flex flex-col items-center justify-center gap-4 p-8 rounded-[2rem] bg-primary-200 border border-primary-300 hover:bg-primary-300 hover:border-primary-400 hover:shadow-lg transition-all group"
+                     >
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-primary-400 group-hover:text-blue-600 shadow-sm transition-colors">
+                          <Smartphone size={40} />
+                        </div>
+                        <span className="text-xl font-bold text-primary-900">iOS (iPhone)</span>
+                     </button>
+                   </div>
+                 </div>
+               )}
+
+               {/* Android View */}
+               {claimHelpView === 'ANDROID' && (
+                 <div className="max-w-md mx-auto space-y-12 pb-12">
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">1</span>
+                        Download App
+                      </h4>
+                      <div className="pl-11">
+                         <a href="https://play.google.com/store/apps/details?id=com.BuilderTREND.btMobileApp" target="_blank" rel="noreferrer">
+                           <img src="/playstore.png" alt="Get it on Google Play" className="h-12 w-auto hover:opacity-80 transition-opacity" />
+                         </a>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">2</span>
+                        Login
+                      </h4>
+                      <div className="pl-11">
+                         <img src="/alogin.png" alt="Android Login Screen" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">3</span>
+                        Select Warranty Items
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Click on "Warranty Items".</p>
+                         <div className="bg-red-50 text-red-800 p-3 rounded-lg text-xs border border-red-200 font-medium">
+                           ⚠️ DO NOT submit requests under "To-Do’s".
+                         </div>
+                         <img src="/aitems.png" alt="Warranty Items Menu" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">4</span>
+                        Add New Request
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Click the blue circle icon on the bottom right corner.</p>
+                         <img src="/aadd.png" alt="Add Button" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">5</span>
+                        Fill Details
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Submit requests individually. Fill out all info.</p>
+                         <img src="/aind.png" alt="Form Details" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">6</span>
+                        Attach Photos
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Click "Add Attachment" to include photos/video.</p>
+                         <img src="/apic.png" alt="Add Attachment" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="bg-green-50 p-6 rounded-2xl border border-green-200">
+                        <h5 className="font-bold text-green-800 mb-1">Finish</h5>
+                        <p className="text-green-800 text-sm">
+                          Click Save at the top right corner. We'll contact you by the end of the next business day.
+                        </p>
+                    </div>
+                 </div>
+               )}
+
+               {/* iOS View */}
+               {claimHelpView === 'IOS' && (
+                 <div className="max-w-md mx-auto space-y-12 pb-12">
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold">1</span>
+                        Download App
+                      </h4>
+                      <div className="pl-11">
+                         <a href="https://apps.apple.com/us/app/buildertrend/id504370616" target="_blank" rel="noreferrer">
+                           <img src="/appstore.png" alt="Download on App Store" className="h-12 w-auto hover:opacity-80 transition-opacity" />
+                         </a>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold">2</span>
+                        Login
+                      </h4>
+                      <div className="pl-11">
+                         <img src="/ilogin.png" alt="iOS Login Screen" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold">3</span>
+                        Select Warranty Items
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Click on "Warranty Items".</p>
+                         <div className="bg-red-50 text-red-800 p-3 rounded-lg text-xs border border-red-200 font-medium">
+                           ⚠️ DO NOT submit requests under "To-Do’s".
+                         </div>
+                         <img src="/iitems.png" alt="Warranty Items Menu" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold">4</span>
+                        Add New Request
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Click the blue circle icon on the bottom right corner.</p>
+                         <img src="/iadd.png" alt="Add Button" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold">5</span>
+                        Fill Details
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Submit requests individually. Fill out all info.</p>
+                         <img src="/aind.png" alt="Form Details" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h4 className="text-lg font-bold text-primary-900 flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold">6</span>
+                        Attach Photos
+                      </h4>
+                      <div className="pl-11 space-y-4">
+                         <p className="text-sm text-primary-600">Click "Add Attachment" to include photos/video.</p>
+                         <img src="/ipic.png" alt="Add Attachment" className="w-full rounded-xl border border-primary-200 shadow-sm" />
+                      </div>
+                    </div>
+
+                    <div className="bg-green-50 p-6 rounded-2xl border border-green-200">
+                        <h5 className="font-bold text-green-800 mb-1">Finish</h5>
+                        <p className="text-green-800 text-sm">
+                          Click Save at the top right corner. We'll contact you by the end of the next business day.
+                        </p>
+                    </div>
+                 </div>
+               )}
+
+             </div>
+           </div>
+        </div>
+      )}
+
     </div>
   );
 };
