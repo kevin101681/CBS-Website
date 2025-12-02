@@ -741,7 +741,8 @@ const WebsiteView: React.FC = () => {
                        <iframe 
                           src="https://drive.google.com/file/d/12bN3I9-6jwx_PbQLu_Ybf_5DAuJZbaFO/preview" 
                           className="w-full h-full border-0"
-                          allow="autoplay"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          referrerPolicy="no-referrer"
                        ></iframe>
                      </div>
                   </div>
@@ -863,7 +864,8 @@ const WebsiteView: React.FC = () => {
                <iframe 
                   src="https://drive.google.com/file/d/1_7MB7ULBXcUIo4tG9qiH23JGbW2IBJTe/preview" 
                   className="w-full h-full border-0"
-                  allow="autoplay"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  referrerPolicy="no-referrer"
                ></iframe>
              </div>
            </div>
