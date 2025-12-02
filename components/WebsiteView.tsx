@@ -186,9 +186,9 @@ const WebsiteView: React.FC = () => {
   const getPlaceholderImage = (num: number) => {
     const svg = `
     <svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-      <rect width="400" height="300" fill="#F4F8FB"/>
-      <rect x="150" y="100" width="100" height="80" rx="10" fill="#C8D9EA"/>
-      <path d="M150 160 L180 130 L210 160 L230 140 L250 160 V180 H150 Z" fill="#A4BFDB"/>
+      <rect width="400" height="300" fill="#ffffff"/>
+      <rect x="150" y="100" width="100" height="80" rx="10" fill="#F4F8FB"/>
+      <path d="M150 160 L180 130 L210 160 L230 140 L250 160 V180 H150 Z" fill="#E4ECF4"/>
       <text x="50%" y="220" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#4D6487" font-weight="bold">Project ${num}</text>
     </svg>
     `;
@@ -229,7 +229,7 @@ const WebsiteView: React.FC = () => {
           
           {/* Centered Logo with Badge */}
           <div className="flex flex-col items-center mb-4">
-            <div className="bg-white/80 backdrop-blur-md p-4 rounded-[2rem] shadow-xl border border-white/50 mb-4">
+            <div className="bg-white/40 backdrop-blur-md p-4 rounded-[2rem] shadow-xl border border-white/50 mb-4">
               <img 
                 src="/logo.png" 
                 alt="Cascade Builder Services Logo" 
@@ -726,52 +726,60 @@ const WebsiteView: React.FC = () => {
 
             <div className="flex flex-col gap-8">
               {/* Card 1: Seattle Real Estate Radio */}
-              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200 flex flex-col items-center text-center">
-                 <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full rounded-xl mb-4 shadow-md max-w-2xl" />
-                 <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
-                 <p className="text-primary-600 mb-6 text-sm leading-relaxed max-w-2xl">
-                   Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
-                 </p>
-                 <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-auto max-w-3xl">
-                   <iframe 
-                     width="100%" 
-                     height="100%" 
-                     src="https://www.youtube.com/embed/HhfM43e_WEg?referrerPolicy=strict-origin-when-cross-origin" 
-                     title="YouTube video player" 
-                     frameBorder="0" 
-                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                     referrerPolicy="strict-origin-when-cross-origin" 
-                     allowFullScreen
-                   ></iframe>
-                 </div>
-                 <a 
-                   href="https://www.youtube.com/watch?v=HhfM43e_WEg" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="mt-4 text-sm text-primary-500 underline hover:text-primary-700"
-                 >
-                   Watch on YouTube
-                 </a>
+              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
+                <div className="flex flex-col md:flex-row gap-6 items-start">
+                  <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full md:w-48 rounded-xl shadow-md object-contain max-h-48 bg-white" />
+                  <div className="flex-1 text-left">
+                     <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
+                     <p className="text-primary-600 mb-4 text-sm leading-relaxed">
+                       Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
+                     </p>
+                     <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-2">
+                       <iframe 
+                         width="100%" 
+                         height="100%" 
+                         src="https://www.youtube.com/embed/HhfM43e_WEg?referrerPolicy=strict-origin-when-cross-origin" 
+                         title="YouTube video player" 
+                         frameBorder="0" 
+                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                         referrerPolicy="strict-origin-when-cross-origin" 
+                         allowFullScreen
+                       ></iframe>
+                     </div>
+                     <a 
+                       href="https://www.youtube.com/watch?v=HhfM43e_WEg" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       className="mt-4 block text-sm text-primary-500 underline hover:text-primary-700"
+                     >
+                       Watch on YouTube
+                     </a>
+                  </div>
+                </div>
               </div>
 
               {/* Card 2: Team Reba */}
-              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200 flex flex-col items-center text-center">
-                 <img src="/reba.png" alt="Team Reba Radio Show" className="w-full rounded-xl mb-4 shadow-md max-w-2xl" />
-                 <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
-                 <p className="text-primary-600 mb-4 text-sm leading-relaxed max-w-2xl">
-                   Kevin Pierce joins Team Reba's radio show to discuss Cascade Builder Services and how they provide unrivaled value to home builders in Washington.
-                 </p>
-                 <p className="text-primary-700 font-medium mb-6 text-sm">
-                   Airs every Tuesday at 3pm on KKOL 1300AM.
-                 </p>
-                 <a 
-                   href="https://teamreba.com/2017/02/24/this-weeks-open-house-recap-third-party-warranties-cascade-builder-services/" 
-                   target="_blank" 
-                   rel="noreferrer"
-                   className="mt-auto bg-primary-700 text-white px-8 py-3 rounded-full font-bold hover:bg-primary-600 transition-all shadow-md hover:shadow-lg flex items-center gap-2"
-                 >
-                   Click here to listen! <ExternalLink size={18} />
-                 </a>
+              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
+                <div className="flex flex-col md:flex-row gap-6 items-start">
+                  <img src="/reba.png" alt="Team Reba Radio Show" className="w-full md:w-48 rounded-xl shadow-md object-contain max-h-48 bg-white" />
+                  <div className="flex-1 text-left">
+                     <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
+                     <p className="text-primary-600 mb-2 text-sm leading-relaxed">
+                       Kevin Pierce joins Team Reba's radio show to discuss Cascade Builder Services and how they provide unrivaled value to home builders in Washington.
+                     </p>
+                     <p className="text-primary-700 font-medium mb-4 text-sm">
+                       Airs every Tuesday at 3pm on KKOL 1300AM.
+                     </p>
+                     <a 
+                       href="https://teamreba.com/2017/02/24/this-weeks-open-house-recap-third-party-warranties-cascade-builder-services/" 
+                       target="_blank" 
+                       rel="noreferrer"
+                       className="bg-primary-700 text-white px-8 py-3 rounded-full font-bold hover:bg-primary-600 transition-all shadow-md hover:shadow-lg flex items-center gap-2 w-fit"
+                     >
+                       Click here to listen! <ExternalLink size={18} />
+                     </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
