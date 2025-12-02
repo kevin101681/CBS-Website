@@ -157,29 +157,29 @@ const WebsiteView: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const encode = (data: any) => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  };
+
   const handleSubmitQuote = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const encode = (data: any) => {
-      return Object.keys(data)
-        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-        .join("&");
-    };
-
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "quote-request", ...formData })
+      body: encode({ "form-name": "quote", ...formData })
     })
-    .then(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    })
-    .catch(error => {
-      alert("Submission failed. Please try again or contact us directly.");
-      setIsSubmitting(false);
-    });
+      .then(() => {
+        setIsSubmitted(true);
+        setIsSubmitting(false);
+      })
+      .catch(error => {
+        alert("Submission failed. Please try again or call us.");
+        setIsSubmitting(false);
+      });
   };
 
   // Helper to generate internal SVG placeholder if local image fails
@@ -197,6 +197,11 @@ const WebsiteView: React.FC = () => {
 
   const handleImageError = (index: number) => {
     setImageErrors(prev => ({ ...prev, [index]: true }));
+  };
+
+  const handleScrollToContact = () => {
+    setIsClaimHelpOpen(false);
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -224,7 +229,7 @@ const WebsiteView: React.FC = () => {
           
           {/* Centered Logo with Badge */}
           <div className="flex flex-col items-center mb-4">
-            <div className="bg-white/80 backdrop-blur-md p-6 rounded-[2.5rem] shadow-xl border border-white/50 mb-4">
+            <div className="bg-white/80 backdrop-blur-md p-4 rounded-[2rem] shadow-xl border border-white/50 mb-4">
               <img 
                 src="/logo.png" 
                 alt="Cascade Builder Services Logo" 
@@ -580,7 +585,8 @@ const WebsiteView: React.FC = () => {
                 <h3 className="text-2xl font-bold text-primary-900 mb-2 text-center">Get a Quote</h3>
                 <p className="text-primary-500 text-center mb-6">Tell us about your project needs.</p>
                 
-                <form onSubmit={handleSubmitQuote} className="space-y-4">
+                <form name="quote" method="POST" data-netlify="true" onSubmit={handleSubmitQuote} className="space-y-4">
+                  <input type="hidden" name="form-name" value="quote" />
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">First Name</label>
@@ -718,15 +724,15 @@ const WebsiteView: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="flex flex-col gap-8">
               {/* Card 1: Seattle Real Estate Radio */}
               <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200 flex flex-col items-center text-center">
-                 <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full rounded-xl mb-4 shadow-md" />
+                 <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full rounded-xl mb-4 shadow-md max-w-2xl" />
                  <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
-                 <p className="text-primary-600 mb-6 text-sm leading-relaxed">
+                 <p className="text-primary-600 mb-6 text-sm leading-relaxed max-w-2xl">
                    Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
                  </p>
-                 <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-auto">
+                 <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-auto max-w-3xl">
                    <iframe 
                      width="100%" 
                      height="100%" 
@@ -750,9 +756,9 @@ const WebsiteView: React.FC = () => {
 
               {/* Card 2: Team Reba */}
               <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200 flex flex-col items-center text-center">
-                 <img src="/reba.png" alt="Team Reba Radio Show" className="w-full rounded-xl mb-4 shadow-md" />
+                 <img src="/reba.png" alt="Team Reba Radio Show" className="w-full rounded-xl mb-4 shadow-md max-w-2xl" />
                  <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
-                 <p className="text-primary-600 mb-4 text-sm leading-relaxed">
+                 <p className="text-primary-600 mb-4 text-sm leading-relaxed max-w-2xl">
                    Kevin Pierce joins Team Reba's radio show to discuss Cascade Builder Services and how they provide unrivaled value to home builders in Washington.
                  </p>
                  <p className="text-primary-700 font-medium mb-6 text-sm">
@@ -846,9 +852,17 @@ const WebsiteView: React.FC = () => {
                {/* Selection View */}
                {claimHelpView === 'SELECT' && (
                  <div className="flex flex-col items-center text-center max-w-2xl mx-auto py-8">
-                   <p className="text-lg text-primary-600 mb-12">
-                     If you have not activated your online account, please email us at <a href="mailto:info@cascadebuilderservices.com" className="text-primary-800 font-bold underline">info@cascadebuilderservices.com</a>.
-                   </p>
+                   <div className="mb-12 flex flex-col items-center gap-3">
+                     <p className="text-lg text-primary-600">
+                       If you have not activated your online account, please contact us.
+                     </p>
+                     <button 
+                       onClick={handleScrollToContact}
+                       className="bg-primary-700 text-white px-6 py-2 rounded-full font-bold hover:bg-primary-600 transition-all shadow-md"
+                     >
+                       Contact Us
+                     </button>
+                   </div>
                    
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                      <button 
@@ -902,7 +916,7 @@ const WebsiteView: React.FC = () => {
                          <div className="bg-red-50 text-red-800 p-4 rounded-xl text-sm border border-red-200 font-medium">
                            ⚠️ DO NOT submit requests under the “To-Do’s” tab. We will not be notified and doing so will delay the processing of your claims.
                          </div>
-                         <img src="/warranty.png" alt="Navigate to Warranty Tab" className="w-full max-w-lg mx-auto rounded-xl border border-primary-200 shadow-md object-contain" />
+                         <img src="/warranty.png" alt="Navigate to Warranty Tab" className="w-full max-w-[200px] mx-auto rounded-xl border border-primary-200 shadow-md object-contain" />
                       </div>
                     </div>
 
