@@ -432,7 +432,7 @@ const WebsiteView: React.FC = () => {
       </section>
 
       {/* Trusted by Top Builders Carousel */}
-      <section id="testimonials" className="py-12 bg-primary-50 rounded-t-[3rem] overflow-hidden pb-12">
+      <section id="testimonials" className="py-12 bg-white rounded-t-[3rem] overflow-hidden pb-12">
         <div className="text-center mb-16 px-6">
           <div className="inline-block px-12 py-4 rounded-full bg-primary-200 mb-6 shadow-sm">
              <h3 className="text-xl md:text-2xl font-medium text-primary-900 leading-none">
@@ -447,8 +447,8 @@ const WebsiteView: React.FC = () => {
         {/* Carousel Container */}
         <div className="relative w-full py-4 group">
           {/* Gradient Masks */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r from-primary-50 to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l from-primary-50 to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
           {/* Navigation Arrows */}
           <button 
@@ -750,14 +750,14 @@ const WebsiteView: React.FC = () => {
                 <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
                   <div className="flex flex-col md:flex-row gap-6 items-start">
                     <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
-                      <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full h-full object-cover max-h-48" />
+                      <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full h-full object-cover object-top max-h-48" />
                     </div>
                     <div className="flex-1 text-left">
                        <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
                        <p className="text-primary-600 mb-4 text-sm leading-relaxed">
                          Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
                        </p>
-                       <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-2 bg-black">
+                       <div className="w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-lg mt-2 bg-black">
                          <iframe 
                             src="https://drive.google.com/file/d/12bN3I9-6jwx_PbQLu_Ybf_5DAuJZbaFO/preview" 
                             className="w-full h-full border-0"
@@ -773,7 +773,7 @@ const WebsiteView: React.FC = () => {
                 <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
                   <div className="flex flex-col md:flex-row gap-6 items-start">
                     <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
-                      <img src="/reba.png" alt="Team Reba Radio Show" className="w-full h-full object-cover max-h-48" />
+                      <img src="/reba.png" alt="Team Reba Radio Show" className="w-full h-full object-cover object-top max-h-48" />
                     </div>
                     <div className="flex-1 text-left">
                        <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
@@ -871,17 +871,11 @@ const WebsiteView: React.FC = () => {
                <ArrowLeft size={24} />
              </button>
 
-             {/* Header */}
+             {/* Header - X Removed */}
              <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
                <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm">
                   <h3 className="text-xl font-medium text-primary-900 leading-none">How to View Claims</h3>
                </div>
-               <button 
-                onClick={() => setIsViewClaimsHelpOpen(false)}
-                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
-               >
-                 <X size={24} />
-               </button>
              </div>
 
              {/* Content */}
@@ -931,7 +925,7 @@ const WebsiteView: React.FC = () => {
                </button>
              )}
 
-             {/* NEW FAB Back Button for Main Selection View */}
+             {/* FAB Back Button for Main Selection View */}
              {claimHelpView === 'SELECT' && (
                <button
                  onClick={() => {
@@ -945,18 +939,11 @@ const WebsiteView: React.FC = () => {
                </button>
              )}
 
-             {/* Header */}
+             {/* Header - X Removed */}
              <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
                <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm text-center">
                   <h3 className="text-xl font-medium text-primary-900 leading-none">Submit Warranty Requests</h3>
                </div>
-               
-               <button 
-                onClick={() => setIsClaimHelpOpen(false)}
-                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
-               >
-                 <X size={24} />
-               </button>
              </div>
 
              {/* Content Scroll Area */}
