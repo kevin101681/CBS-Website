@@ -1016,7 +1016,7 @@ const WebsiteView: React.FC = () => {
                          <div className="bg-red-50 text-red-800 p-4 rounded-xl text-sm border border-red-200 font-medium">
                            ⚠️ DO NOT submit requests under the “To-Do’s” tab. We will not be notified and doing so will delay the processing of your claims.
                          </div>
-                         <img src="/warranty.png" alt="Navigate to Warranty Tab" className="w-full max-w-[200px] mx-auto rounded-xl border border-primary-200 shadow-md object-contain" />
+                         <img src="/warranty.png" alt="Navigate to Warranty Tab" className="w-full max-w-[150px] mx-auto rounded-xl border border-primary-200 shadow-md object-contain" />
                       </div>
                     </div>
 
