@@ -1,16 +1,25 @@
 import { GoogleGenAI, Chat, GenerateContentResponse } from "@google/genai";
 import { Role } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const MODEL_CHAT = 'gemini-2.5-flash';
 const MODEL_VISION = 'gemini-2.5-flash';
+
+// Helper to get AI client safely
+const getAiClient = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    console.warn("API Key is missing. AI features will not work.");
+    throw new Error("API Key is missing");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 // Initialize a chat session
 let chatSession: Chat | null = null;
 
 export const getChatSession = (): Chat => {
   if (!chatSession) {
+    const ai = getAiClient();
     chatSession = ai.chats.create({
       model: MODEL_CHAT,
       config: {
@@ -29,10 +38,10 @@ export const sendChatMessageStream = async (
   message: string,
   onChunk: (text: string) => void
 ): Promise<string> => {
-  const chat = getChatSession();
   let fullText = "";
 
   try {
+    const chat = getChatSession();
     const result = await chat.sendMessageStream({ message });
     
     for await (const chunk of result) {
@@ -59,6 +68,7 @@ export const analyzeImageStream = async (
   let fullText = "";
 
   try {
+    const ai = getAiClient();
     // Clean base64 string if it contains the data URL prefix
     const cleanBase64 = base64Image.split(',')[1] || base64Image;
 
