@@ -9,7 +9,7 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.HOME);
 
   return (
-    <div className="flex flex-col h-screen w-full bg-surface-variant overflow-hidden font-sans text-primary-900">
+    <div className="flex flex-col h-[100dvh] w-full bg-surface-variant overflow-hidden font-sans text-primary-900">
       
       {/* Navigation (Modal logic only, visual toolbar removed) */}
       <Navigation currentView={currentView} setView={setCurrentView} />

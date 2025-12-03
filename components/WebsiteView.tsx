@@ -53,7 +53,12 @@ const WebsiteView: React.FC = () => {
       setClaimHelpView('SELECT');
     }
 
-    // 3. Check Query Params
+    // 3. Check Pathname for /viewingclaims
+    if (path === '/viewingclaims') {
+      setIsViewClaimsHelpOpen(true);
+    }
+
+    // 4. Check Query Params
     const params = new URLSearchParams(window.location.search);
     const modalParam = params.get('modal');
 
@@ -292,7 +297,7 @@ const WebsiteView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Card 1 - Updated to darker background */}
+            {/* Card 1 */}
             <div className="bg-primary-100 p-8 rounded-[2rem] shadow-sm border border-primary-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-primary-700 mb-6 group-hover:bg-primary-700 group-hover:text-white transition-colors duration-300">
                 <UserCheck size={32} />
@@ -315,7 +320,7 @@ const WebsiteView: React.FC = () => {
               </p>
             </div>
 
-            {/* Card 3 - Updated to darker background */}
+            {/* Card 3 */}
             <div className="bg-primary-100 p-8 rounded-[2rem] shadow-sm border border-primary-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-primary-700 mb-6 group-hover:bg-primary-700 group-hover:text-white transition-colors duration-300">
                 <LayoutDashboard size={32} />
@@ -543,27 +548,31 @@ const WebsiteView: React.FC = () => {
       {isEnrollmentOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsEnrollmentOpen(false)} />
-          <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-0 animate-in zoom-in-95 duration-200 flex flex-col">
-            
-            <button 
-              onClick={() => setIsEnrollmentOpen(false)}
-              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors z-50 bg-white/80 backdrop-blur"
-            >
-              <X size={24} />
-            </button>
-            
-            <div className="p-6 md:p-8 flex flex-col items-center">
-               <h3 className="text-2xl font-bold text-primary-900 mb-6">Enrollment Form</h3>
-               <div className="w-full">
-                 <iframe 
-                    src="https://buildertrend.net/leads/contactforms/ContactFormFrame.aspx?builderID=14554" 
-                    id="btIframe" 
-                    className="w-full border-none min-h-[600px]"
-                    scrolling="no"
-                    title="Enrollment Form"
-                 />
+          <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
+             
+             {/* Header */}
+             <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
+               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm">
+                  <h3 className="text-xl font-medium text-primary-900 leading-none">Enrollment Form</h3>
                </div>
-            </div>
+               <button 
+                onClick={() => setIsEnrollmentOpen(false)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
+               >
+                 <X size={24} />
+               </button>
+             </div>
+
+             {/* Content */}
+             <div className="flex-1 overflow-y-auto no-scrollbar bg-white">
+                <iframe 
+                  src="https://buildertrend.net/leads/contactforms/ContactFormFrame.aspx?builderID=14554" 
+                  id="btIframe" 
+                  className="w-full border-none min-h-[800px]"
+                  scrolling="no"
+                  title="Enrollment Form"
+                />
+             </div>
           </div>
         </div>
       )}
@@ -572,137 +581,145 @@ const WebsiteView: React.FC = () => {
       {isQuoteOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsQuoteOpen(false)} />
-          <div className="relative bg-white rounded-[2rem] w-full max-w-lg shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200 overflow-y-auto max-h-[90vh] no-scrollbar">
+          <div className="relative bg-white rounded-[2rem] w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col overflow-hidden">
             
-            <button 
-              onClick={() => setIsQuoteOpen(false)}
-              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors"
-            >
-              <X size={24} />
-            </button>
+            {/* Header */}
+            <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
+               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm">
+                  <h3 className="text-xl font-medium text-primary-900 leading-none">Get a Quote</h3>
+               </div>
+               <button 
+                onClick={() => setIsQuoteOpen(false)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
+               >
+                 <X size={24} />
+               </button>
+             </div>
 
-            {!isSubmitted ? (
-              <>
-                <h3 className="text-2xl font-bold text-primary-900 mb-2 text-center">Get a Quote</h3>
-                <p className="text-primary-500 text-center mb-6">Tell us about your project needs.</p>
-                
-                <form name="quote" method="POST" data-netlify="true" onSubmit={handleSubmitQuote} className="space-y-4">
-                  <input type="hidden" name="form-name" value="quote" />
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">First Name</label>
-                      <input 
-                        type="text" 
-                        name="firstName"
-                        required
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Last Name</label>
-                      <input 
-                        type="text" 
-                        name="lastName"
-                        required
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Company Name</label>
-                    <input 
-                      type="text" 
-                      name="company"
-                      required
-                      value={formData.company}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Annual Closings</label>
-                    <input 
-                      type="text" 
-                      name="closings"
-                      value={formData.closings}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Phone</label>
-                      <input 
-                        type="tel" 
-                        name="phone"
-                        required
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Email</label>
-                      <input 
-                        type="email" 
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Comments</label>
-                    <textarea 
-                      name="comments"
-                      value={formData.comments}
-                      onChange={handleInputChange}
-                      rows={4}
-                      className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all resize-none"
-                    ></textarea>
-                  </div>
-
-                  <div className="pt-2">
-                    <button 
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-primary-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? <Loader2 className="animate-spin" /> : 'Submit'}
-                    </button>
-                  </div>
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto no-scrollbar p-6 md:p-8">
+              {!isSubmitted ? (
+                <>
+                  <p className="text-primary-500 text-center mb-6">Tell us about your project needs.</p>
                   
-                  <div className="text-center pt-4 border-t border-primary-100">
-                    <p className="text-primary-500 font-medium">Questions? Call us.</p>
-                    <a href="tel:8884295468" className="text-xl font-bold text-primary-700 hover:text-primary-900">888-429-5468</a>
+                  <form name="quote" method="POST" data-netlify="true" onSubmit={handleSubmitQuote} className="space-y-4">
+                    <input type="hidden" name="form-name" value="quote" />
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">First Name</label>
+                        <input 
+                          type="text" 
+                          name="firstName"
+                          required
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Last Name</label>
+                        <input 
+                          type="text" 
+                          name="lastName"
+                          required
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Company Name</label>
+                      <input 
+                        type="text" 
+                        name="company"
+                        required
+                        value={formData.company}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Annual Closings</label>
+                      <input 
+                        type="text" 
+                        name="closings"
+                        value={formData.closings}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Phone</label>
+                        <input 
+                          type="tel" 
+                          name="phone"
+                          required
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Email</label>
+                        <input 
+                          type="email" 
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">Comments</label>
+                      <textarea 
+                        name="comments"
+                        value={formData.comments}
+                        onChange={handleInputChange}
+                        rows={4}
+                        className="w-full px-4 py-3 rounded-xl bg-primary-50 border border-primary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all resize-none"
+                      ></textarea>
+                    </div>
+
+                    <div className="pt-2">
+                      <button 
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-primary-700 text-white py-4 rounded-xl font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? <Loader2 className="animate-spin" /> : 'Submit'}
+                      </button>
+                    </div>
+                    
+                    <div className="text-center pt-4 border-t border-primary-100">
+                      <p className="text-primary-500 font-medium">Questions? Call us.</p>
+                      <a href="tel:8884295468" className="text-xl font-bold text-primary-700 hover:text-primary-900">888-429-5468</a>
+                    </div>
+                  </form>
+                </>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Check size={40} strokeWidth={3} />
                   </div>
-                </form>
-              </>
-            ) : (
-              <div className="text-center py-12">
-                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Check size={40} strokeWidth={3} />
+                  <h3 className="text-2xl font-bold text-primary-900 mb-2">Request Sent!</h3>
+                  <p className="text-primary-600 mb-8">Thank you for contacting us. We will get back to you shortly.</p>
+                  <button 
+                    onClick={() => setIsQuoteOpen(false)}
+                    className="bg-primary-100 text-primary-700 px-8 py-3 rounded-full font-bold hover:bg-primary-200 transition-colors"
+                  >
+                    Close
+                  </button>
                 </div>
-                <h3 className="text-2xl font-bold text-primary-900 mb-2">Request Sent!</h3>
-                <p className="text-primary-600 mb-8">Thank you for contacting us. We will get back to you shortly.</p>
-                <button 
-                  onClick={() => setIsQuoteOpen(false)}
-                  className="bg-primary-100 text-primary-700 px-8 py-3 rounded-full font-bold hover:bg-primary-200 transition-colors"
-                >
-                  Close
-                </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -711,66 +728,70 @@ const WebsiteView: React.FC = () => {
       {isMediaOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
           <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsMediaOpen(false)} />
-          <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200">
-            <button 
-              onClick={() => setIsMediaOpen(false)}
-              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors z-10"
-            >
-              <X size={24} />
-            </button>
+          <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
             
-            <div className="text-center mb-8">
-               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 mb-4 shadow-sm">
-                <h3 className="text-xl font-medium text-primary-900 leading-none">Media</h3>
-              </div>
-            </div>
+            {/* Header */}
+            <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
+               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm">
+                  <h3 className="text-xl font-medium text-primary-900 leading-none">Media</h3>
+               </div>
+               <button 
+                onClick={() => setIsMediaOpen(false)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
+               >
+                 <X size={24} />
+               </button>
+             </div>
 
-            <div className="flex flex-col gap-8">
-              {/* Card 1: Seattle Real Estate Radio */}
-              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
-                    <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full h-full object-cover max-h-48" />
-                  </div>
-                  <div className="flex-1 text-left">
-                     <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
-                     <p className="text-primary-600 mb-4 text-sm leading-relaxed">
-                       Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
-                     </p>
-                     <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-2 bg-black">
-                       <iframe 
-                          src="https://drive.google.com/file/d/12bN3I9-6jwx_PbQLu_Ybf_5DAuJZbaFO/preview" 
-                          className="w-full h-full border-0"
-                          allow="autoplay; fullscreen; picture-in-picture"
-                          referrerPolicy="no-referrer"
-                       ></iframe>
-                     </div>
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto no-scrollbar p-6 md:p-8">
+              <div className="flex flex-col gap-8">
+                {/* Card 1: Seattle Real Estate Radio */}
+                <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
+                  <div className="flex flex-col md:flex-row gap-6 items-start">
+                    <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
+                      <img src="/nossum.png" alt="Christian Nossum and Dan Keller" className="w-full h-full object-cover max-h-48" />
+                    </div>
+                    <div className="flex-1 text-left">
+                       <h4 className="text-xl font-bold text-primary-900 mb-2">Seattle Real Estate Radio</h4>
+                       <p className="text-primary-600 mb-4 text-sm leading-relaxed">
+                         Christian Nossum and Dan Keller host Seattle Real Estate Radio. In the segment below, Christian, Dan and Kevin Pierce (founder of Cascade Builder Services) discuss the value that home builders gain from partnering with a third party warranty management company.
+                       </p>
+                       <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg mt-2 bg-black">
+                         <iframe 
+                            src="https://drive.google.com/file/d/12bN3I9-6jwx_PbQLu_Ybf_5DAuJZbaFO/preview" 
+                            className="w-full h-full border-0"
+                            allow="autoplay; fullscreen; picture-in-picture"
+                            referrerPolicy="no-referrer"
+                         ></iframe>
+                       </div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Card 2: Team Reba */}
-              <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
-                    <img src="/reba.png" alt="Team Reba Radio Show" className="w-full h-full object-cover max-h-48" />
-                  </div>
-                  <div className="flex-1 text-left">
-                     <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
-                     <p className="text-primary-600 mb-2 text-sm leading-relaxed">
-                       Kevin Pierce joins Team Reba's radio show to discuss Cascade Builder Services and how they provide unrivaled value to home builders in Washington.
-                     </p>
-                     <p className="text-primary-700 font-medium mb-4 text-sm">
-                       Airs every Tuesday at 3pm on KKOL 1300AM.
-                     </p>
-                     <a 
-                       href="https://teamreba.com/2017/02/24/this-weeks-open-house-recap-third-party-warranties-cascade-builder-services/" 
-                       target="_blank" 
-                       rel="noreferrer"
-                       className="bg-primary-700 text-white px-8 py-3 rounded-full font-bold hover:bg-primary-600 transition-all shadow-md hover:shadow-lg flex items-center gap-2 w-fit"
-                     >
-                       Click here to listen! <ExternalLink size={18} />
-                     </a>
+                {/* Card 2: Team Reba */}
+                <div className="bg-primary-100 rounded-[2rem] p-6 shadow-sm border border-primary-200">
+                  <div className="flex flex-col md:flex-row gap-6 items-start">
+                    <div className="w-full md:w-48 bg-white rounded-xl shadow-md overflow-hidden flex-shrink-0">
+                      <img src="/reba.png" alt="Team Reba Radio Show" className="w-full h-full object-cover max-h-48" />
+                    </div>
+                    <div className="flex-1 text-left">
+                       <h4 className="text-xl font-bold text-primary-900 mb-2">Team Reba's Radio Show</h4>
+                       <p className="text-primary-600 mb-2 text-sm leading-relaxed">
+                         Kevin Pierce joins Team Reba's radio show to discuss Cascade Builder Services and how they provide unrivaled value to home builders in Washington.
+                       </p>
+                       <p className="text-primary-700 font-medium mb-4 text-sm">
+                         Airs every Tuesday at 3pm on KKOL 1300AM.
+                       </p>
+                       <a 
+                         href="https://teamreba.com/2017/02/24/this-weeks-open-house-recap-third-party-warranties-cascade-builder-services/" 
+                         target="_blank" 
+                         rel="noreferrer"
+                         className="bg-primary-700 text-white px-8 py-3 rounded-full font-bold hover:bg-primary-600 transition-all shadow-md hover:shadow-lg flex items-center gap-2 w-fit"
+                       >
+                         Click here to listen! <ExternalLink size={18} />
+                       </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -783,47 +804,50 @@ const WebsiteView: React.FC = () => {
       {isPortalOptionsOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
            <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsPortalOptionsOpen(false)} />
-           <div className="relative bg-white rounded-[2rem] w-full max-w-sm shadow-2xl p-8 animate-in zoom-in-95 duration-200 text-center">
-             <button 
-              onClick={() => setIsPortalOptionsOpen(false)}
-              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors"
-             >
-               <X size={24} />
-             </button>
-
-             <div className="mb-6">
-               <h3 className="text-2xl font-bold text-primary-900">Homeowner Portal</h3>
-               <p className="text-primary-500 mt-1">Select an option to continue</p>
+           <div className="relative bg-white rounded-[2rem] w-full max-w-sm shadow-2xl animate-in zoom-in-95 duration-200 text-center flex flex-col overflow-hidden">
+             
+             {/* Header */}
+             <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
+               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm">
+                  <h3 className="text-xl font-medium text-primary-900 leading-none">Homeowner Portal</h3>
+               </div>
+               <button 
+                onClick={() => setIsPortalOptionsOpen(false)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
+               >
+                 <X size={24} />
+               </button>
              </div>
 
-             <div className="flex flex-col gap-4">
-                <a 
-                  href="https://buildertrend.net" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                >
-                  <LogIn size={20} /> Login
-                </a>
-                <button 
-                  onClick={() => {
-                    setIsPortalOptionsOpen(false);
-                    setIsClaimHelpOpen(true);
-                    setClaimHelpView('SELECT');
-                  }}
-                  className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                >
-                  <HelpCircle size={20} /> How to Make a Claim
-                </button>
-                <button 
-                  onClick={() => {
-                    setIsPortalOptionsOpen(false);
-                    setIsViewClaimsHelpOpen(true);
-                  }}
-                  className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                >
-                  <Eye size={20} /> How to View Claims
-                </button>
+             {/* Content */}
+             <div className="flex-1 p-8">
+               <p className="text-primary-500 mb-6">Select an option to continue</p>
+               <div className="flex flex-col gap-4">
+                  <button 
+                    className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                  >
+                    <LogIn size={20} /> Login
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setIsPortalOptionsOpen(false);
+                      setIsClaimHelpOpen(true);
+                      setClaimHelpView('SELECT');
+                    }}
+                    className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                  >
+                    <HelpCircle size={20} /> How to Make a Claim
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setIsPortalOptionsOpen(false);
+                      setIsViewClaimsHelpOpen(true);
+                    }}
+                    className="w-full bg-primary-700 text-white py-4 rounded-full font-bold text-lg hover:bg-primary-600 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                  >
+                    <Eye size={20} /> How to View Claims
+                  </button>
+               </div>
              </div>
            </div>
         </div>
@@ -833,40 +857,58 @@ const WebsiteView: React.FC = () => {
       {isViewClaimsHelpOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
            <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsViewClaimsHelpOpen(false)} />
-           <div className="relative bg-white rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar shadow-2xl p-6 md:p-8 animate-in zoom-in-95 duration-200">
-             <button 
-              onClick={() => setIsViewClaimsHelpOpen(false)}
-              className="absolute top-4 right-4 p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors z-10"
+           <div className="relative bg-white rounded-[2rem] w-full max-w-2xl max-h-[90vh] shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col overflow-hidden">
+             
+             {/* FAB Back Button */}
+             <button
+               onClick={() => {
+                 setIsViewClaimsHelpOpen(false);
+                 setIsPortalOptionsOpen(true);
+               }}
+               className="absolute bottom-6 right-6 z-20 w-12 h-12 bg-primary-100 text-primary-900 rounded-2xl flex items-center justify-center shadow-md hover:shadow-lg hover:bg-primary-200 transition-all border border-primary-200"
+               title="Go Back"
              >
-               <X size={24} />
+               <ArrowLeft size={24} />
              </button>
 
-             <div className="mb-6 text-center">
-                <h3 className="text-2xl font-bold text-primary-900">How to View Claims</h3>
+             {/* Header */}
+             <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
+               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm">
+                  <h3 className="text-xl font-medium text-primary-900 leading-none">How to View Claims</h3>
+               </div>
+               <button 
+                onClick={() => setIsViewClaimsHelpOpen(false)}
+                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
+               >
+                 <X size={24} />
+               </button>
              </div>
 
-             <div className="prose prose-slate text-primary-600 mb-8 max-w-none text-lg leading-relaxed space-y-4">
-               <p>
-                 After we've evaluated your warranty claims, determinations will be made and reflected on your Warranty page. This page defaults to showing Open and New claims only.
-               </p>
-               <p>
-                 Please note that your open claims list may be shorter than the amount of claims you've submitted. We will often combine several claims into one that are all assigned to the same contractor.
-               </p>
-               <p>
-                 Completed claims and claims marked as non-warranty do not show by default. You will need to use the filter option to see these claims. Clicking on the title of the claim will show more details in the description field.
-               </p>
-               <p className="font-bold text-primary-900">
-                 Please watch the video clip below which shows how to use the filter options.
-               </p>
-             </div>
+             {/* Content */}
+             <div className="flex-1 overflow-y-auto no-scrollbar p-6 md:p-8">
+               <div className="prose prose-slate text-primary-600 mb-8 max-w-none text-lg leading-relaxed space-y-4">
+                 <p>
+                   After we've evaluated your warranty claims, determinations will be made and reflected on your Warranty page. This page defaults to showing Open and New claims only.
+                 </p>
+                 <p>
+                   Please note that your open claims list may be shorter than the amount of claims you've submitted. We will often combine several claims into one that are all assigned to the same contractor.
+                 </p>
+                 <p>
+                   Completed claims and claims marked as non-warranty do not show by default. You will need to use the filter option to see these claims. Clicking on the title of the claim will show more details in the description field.
+                 </p>
+                 <p className="font-bold text-primary-900">
+                   Please watch the video clip below which shows how to use the filter options.
+                 </p>
+               </div>
 
-             <div className="rounded-xl overflow-hidden shadow-lg border border-primary-200 bg-black aspect-video">
-               <iframe 
-                  src="https://drive.google.com/file/d/1_7MB7ULBXcUIo4tG9qiH23JGbW2IBJTe/preview" 
-                  className="w-full h-full border-0"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  referrerPolicy="no-referrer"
-               ></iframe>
+               <div className="rounded-xl overflow-hidden shadow-lg border border-primary-200 bg-black aspect-video mb-12">
+                 <iframe 
+                    src="https://drive.google.com/file/d/1_7MB7ULBXcUIo4tG9qiH23JGbW2IBJTe/preview" 
+                    className="w-full h-full border-0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    referrerPolicy="no-referrer"
+                 ></iframe>
+               </div>
              </div>
            </div>
         </div>
@@ -876,24 +918,42 @@ const WebsiteView: React.FC = () => {
       {isClaimHelpOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-200">
            <div className="absolute inset-0 bg-primary-900/40 backdrop-blur-sm" onClick={() => setIsClaimHelpOpen(false)} />
-           <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95 duration-200">
+           <div className="relative bg-white rounded-[2rem] w-full max-w-4xl max-h-[90vh] shadow-2xl flex flex-col animate-in zoom-in-95 duration-200 overflow-hidden">
              
+             {/* FAB Back Button for nested views */}
+             {claimHelpView !== 'SELECT' && (
+               <button
+                 onClick={() => setClaimHelpView(claimHelpView === 'ANDROID' || claimHelpView === 'IOS' ? 'MOBILE_SELECT' : 'SELECT')}
+                 className="absolute bottom-6 right-6 z-20 w-12 h-12 bg-primary-100 text-primary-900 rounded-2xl flex items-center justify-center shadow-md hover:shadow-lg hover:bg-primary-200 transition-all border border-primary-200"
+                 title="Go Back"
+               >
+                 <ArrowLeft size={24} />
+               </button>
+             )}
+
+             {/* NEW FAB Back Button for Main Selection View */}
+             {claimHelpView === 'SELECT' && (
+               <button
+                 onClick={() => {
+                    setIsClaimHelpOpen(false);
+                    setIsPortalOptionsOpen(true);
+                 }}
+                 className="absolute bottom-6 right-6 z-20 w-12 h-12 bg-primary-100 text-primary-900 rounded-2xl flex items-center justify-center shadow-md hover:shadow-lg hover:bg-primary-200 transition-all border border-primary-200"
+                 title="Go Back"
+               >
+                 <ArrowLeft size={24} />
+               </button>
+             )}
+
              {/* Header */}
-             <div className="p-6 border-b border-primary-100 flex items-center justify-between bg-white z-10">
-               <div className="flex items-center gap-2">
-                 {claimHelpView !== 'SELECT' && (
-                   <button 
-                     onClick={() => setClaimHelpView(claimHelpView === 'ANDROID' || claimHelpView === 'IOS' ? 'MOBILE_SELECT' : 'SELECT')}
-                     className="p-2 -ml-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
-                   >
-                     <ArrowLeft size={24} />
-                   </button>
-                 )}
-                 <h3 className="text-xl md:text-2xl font-bold text-primary-900">How to Submit Warranty Requests</h3>
+             <div className="p-6 border-b border-primary-100 flex items-center justify-center bg-white z-10 relative">
+               <div className="inline-block px-8 py-2 rounded-full bg-primary-200 shadow-sm text-center">
+                  <h3 className="text-xl font-medium text-primary-900 leading-none">Submit Warranty Requests</h3>
                </div>
+               
                <button 
                 onClick={() => setIsClaimHelpOpen(false)}
-                className="p-2 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-colors"
+                className="absolute right-6 top-1/2 -translate-y-1/2 p-2 text-primary-400 hover:text-primary-900 hover:bg-primary-50 rounded-full transition-colors"
                >
                  <X size={24} />
                </button>
@@ -904,7 +964,7 @@ const WebsiteView: React.FC = () => {
                
                {/* Selection View */}
                {claimHelpView === 'SELECT' && (
-                 <div className="flex flex-col items-center text-center max-w-2xl mx-auto py-8">
+                 <div className="flex flex-col items-center text-center max-w-2xl mx-auto py-8 mb-12">
                    <div className="mb-12 flex flex-col items-center gap-3">
                      <p className="text-lg text-primary-600">
                        If you have not activated your online account, please contact us.
