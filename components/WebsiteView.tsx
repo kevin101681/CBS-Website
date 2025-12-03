@@ -39,8 +39,8 @@ const WebsiteView: React.FC = () => {
 
   // Deep Linking Effect
   useEffect(() => {
-    // Normalize path by removing trailing slash for consistent matching
-    const path = window.location.pathname.replace(/\/$/, '');
+    // Normalize path by removing trailing slash and converting to lowercase
+    const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
 
     // 1. Check Pathname for /enrollment
     if (path === '/enrollment') {
