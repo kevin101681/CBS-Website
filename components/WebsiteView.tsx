@@ -73,6 +73,9 @@ const WebsiteView: React.FC = () => {
         case 'portal':
           setIsPortalOptionsOpen(true);
           break;
+        case 'enrollment':
+          setIsEnrollmentOpen(true);
+          break;
         case 'claim':
           setIsClaimHelpOpen(true);
           setClaimHelpView('SELECT');
