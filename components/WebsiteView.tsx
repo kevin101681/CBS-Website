@@ -48,9 +48,9 @@ const WebsiteView: React.FC = () => {
     }
 
     // 2. Check Pathname for /warrantyrequests
+    // Updated to open the main Homeowner Portal Modal (Menu)
     if (path === '/warrantyrequests') {
-      setIsClaimHelpOpen(true);
-      setClaimHelpView('SELECT');
+      setIsPortalOptionsOpen(true);
     }
 
     // 3. Check Pathname for /viewingclaims
