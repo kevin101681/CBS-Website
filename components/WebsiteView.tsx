@@ -641,7 +641,8 @@ word-break: break-word !important;
                   id="btIframe" 
                   className="w-full border-none min-h-[800px]"
                   scrolling="no"
-                  title="Enrollment Form"`n                  style={{ background: 'transparent', border: '0px', margin: '0 auto', width: '100%' }}`n                
+                  title="Enrollment Form"
+                  style={{ background: 'transparent', border: '0px', margin: '0 auto', width: '100%' }}
                 />
              </div>
           </div>
