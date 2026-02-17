@@ -1,0 +1,33 @@
+body {
+  background-color: #FDFEFF; /* primary-50 */
+  color: #344155; /* primary-900 */
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8D9EA;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A4BFDB;
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Utility for hiding scrollbar but keeping functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
