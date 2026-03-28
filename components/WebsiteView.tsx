@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck, Eye } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
@@ -301,31 +301,22 @@ word-break: break-word !important;
         {/* Overlay for improved text contrast - Reduced Blur */}
         <div className="absolute inset-0 bg-white/40 backdrop-blur-[0.5px] z-10"></div>
         
+        {/* Top-left Logo */}
+        <div className="absolute top-3 left-3 z-20 animate-in fade-in duration-1000">
+          <img
+            src="/logo.png"
+            alt="Cascade Builder Services Logo"
+            className="h-16 md:h-20 w-auto object-contain drop-shadow-sm"
+          />
+        </div>
+
         {/* Content */}
         <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-4 md:mt-0 p-8">
-          
-          {/* Centered Logo with Badge */}
-          <div className="flex flex-col items-center mb-4">
-            <div className="bg-white/40 backdrop-blur-md p-4 rounded-[2.5rem] shadow-xl border border-white/50 mb-4">
-              <img 
-                src="/logo.png" 
-                alt="Cascade Builder Services Logo" 
-                className="h-24 md:h-32 w-auto object-contain drop-shadow-sm"
-              />
-            </div>
-            <div className="bg-primary-100 text-primary-700 px-4 py-1 rounded-full text-sm font-bold tracking-wide shadow-sm border border-primary-200">
-              Since 2008
-            </div>
-          </div>
 
-          <h1 className="text-display-large text-5xl md:text-7xl lg:text-8xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
+          <h1 className="text-display-large text-3xl md:text-5xl lg:text-6xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
             You Build. <br/>
             <span className="text-primary-600">We Manage.</span>
           </h1>
-          
-          <p className="text-xl md:text-2xl text-primary-700 max-w-3xl leading-relaxed font-medium p-4 rounded-2xl bg-white/30 backdrop-blur-md shadow-sm border border-white/50">
-            Partnering with builders to deliver exceptional warranty management and homeowner satisfaction.
-          </p>
           
           <div className="flex flex-col md:flex-row gap-4 mt-8 w-full justify-center">
             {/* Get Quote */}
@@ -353,6 +344,14 @@ word-break: break-word !important;
               View Media
             </button>
           </div>
+
+        </div>
+
+        {/* Bottom-centered tagline */}
+        <div className="absolute bottom-20 left-0 right-0 z-20 flex justify-center px-6 animate-in fade-in duration-1000">
+          <p className="text-xl md:text-2xl text-primary-700 max-w-3xl leading-relaxed font-medium p-4 rounded-2xl bg-white/30 backdrop-blur-md shadow-sm border border-white/50">
+            Partnering with builders to deliver exceptional warranty management and homeowner satisfaction.
+          </p>
         </div>
       </section>
 
