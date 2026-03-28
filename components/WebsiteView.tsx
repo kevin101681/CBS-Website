@@ -311,14 +311,14 @@ word-break: break-word !important;
         </div>
 
         {/* Content */}
-        <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 mt-4 md:mt-0 p-8">
+        <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-16 md:-mt-24 p-8">
 
           <h1 className="text-display-large text-3xl md:text-5xl lg:text-6xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
             You Build. <br/>
             <span className="text-primary-600">We Manage.</span>
           </h1>
           
-          <div className="flex flex-col md:flex-row gap-4 mt-8 w-full justify-center">
+          <div className="flex flex-col md:flex-row gap-4 mt-16 w-full justify-center">
             {/* Get Quote */}
             <button 
               onClick={() => setIsQuoteOpen(true)}
