@@ -302,7 +302,7 @@ word-break: break-word !important;
         <div className="absolute inset-0 bg-white/40 backdrop-blur-[0.5px] z-10"></div>
         
         {/* Top-left Logo */}
-        <div className="absolute top-3 left-3 z-20 animate-in fade-in duration-1000">
+        <div className="absolute top-3 left-0 right-0 md:left-3 md:right-auto z-20 flex justify-center md:justify-start md:pl-0 animate-in fade-in duration-1000">
           <img
             src="/logo.png"
             alt="Cascade Builder Services Logo"
