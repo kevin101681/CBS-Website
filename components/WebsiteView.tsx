@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck, Eye } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
@@ -428,7 +428,7 @@ word-break: break-word !important;
                    </div>
                    <div>
                      <strong className="text-primary-900 block text-lg">Administration</strong>
-                     <span className="text-primary-600">Full management of the builderG╟╓s one-year limited warranty.</span>
+                     <span className="text-primary-600">Full management of the builder's one-year limited warranty.</span>
                    </div>
                  </li>
                  <li className="flex items-start gap-4">
@@ -452,7 +452,7 @@ word-break: break-word !important;
                </ul>
              </div>
              <p>
-               With a 17-year track record and over 5,000 homes managed, our team combines deep industry knowledge with cutting-edge technology to serve you, your trade contractors, and your homeowners. Don't let warranty issues slow you downG╟÷contact us to see how we can save you time and money.
+               With a 17-year track record and over 5,000 homes managed, our team combines deep industry knowledge with cutting-edge technology to serve you, your trade contractors, and your homeowners. Don't let warranty issues slow you down—contact us to see how we can save you time and money.
              </p>
           </div>
           
