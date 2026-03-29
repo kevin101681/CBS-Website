@@ -322,7 +322,7 @@ word-break: break-word !important;
             {/* Get Quote */}
             <button 
               onClick={() => setIsQuoteOpen(true)}
-              className="bg-primary-700 text-white px-8 py-4 rounded-full font-bold hover:bg-primary-600 transition-all hover:shadow-xl active:scale-95 shadow-lg flex items-center justify-center gap-2 text-lg"
+              className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               Get a Quote
               <ArrowRight size={20} />
@@ -331,7 +331,7 @@ word-break: break-word !important;
             {/* Homeowner Portal */}
             <button 
               onClick={() => setIsPortalOptionsOpen(true)}
-              className="bg-primary-900 text-white px-8 py-4 rounded-full font-bold hover:bg-primary-800 transition-all hover:shadow-xl active:scale-95 shadow-lg flex items-center justify-center gap-2 text-lg"
+              className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               Homeowner Portal
             </button>
@@ -339,7 +339,7 @@ word-break: break-word !important;
             {/* View Media */}
             <button 
               onClick={() => setIsMediaOpen(true)}
-              className="bg-white/90 backdrop-blur border border-primary-200 text-primary-900 px-8 py-4 rounded-full font-bold hover:bg-white transition-all flex items-center justify-center shadow-md hover:shadow-lg text-lg"
+              className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               View Media
             </button>
