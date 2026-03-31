@@ -285,7 +285,7 @@ word-break: break-word !important;
     <div className="w-full h-full overflow-y-auto bg-white custom-scrollbar" id="home-container">
       
       {/* Fixed Logo */}
-      <div className="fixed top-3 left-0 right-0 md:left-3 md:right-auto z-50 flex justify-center md:justify-start md:pl-3 pointer-events-none animate-in fade-in duration-1000">
+      <div className="sticky top-3 left-0 right-0 md:left-3 md:right-auto z-20 flex justify-center md:justify-start md:pl-3 pointer-events-none animate-in fade-in duration-1000">
         <img
           src="/logo.png"
           alt="Cascade Builder Services Logo"
@@ -496,7 +496,7 @@ word-break: break-word !important;
       </section>
 
       {/* Trusted by Top Builders Carousel */}
-      <section id="testimonials" className="relative z-30 py-12 bg-white rounded-t-[3rem] overflow-hidden pb-12">
+      <section id="testimonials" className="relative z-30 py-12 bg-white overflow-hidden pb-12">
         <div className="text-center mb-16 px-6">
           <div className="inline-block px-12 py-4 rounded-full bg-primary-200 mb-6 shadow-sm">
              <h3 className="text-xl md:text-2xl font-medium text-primary-900 leading-none">
@@ -1369,6 +1369,7 @@ word-break: break-word !important;
 };
 
 export default WebsiteView;
+
 
 
 
