@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck, Eye } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
@@ -405,7 +405,7 @@ word-break: break-word !important;
       </section>
 
       {/* Why CBS? Section */}
-      <section id="whycbs" className="py-12 px-6 md:px-20 bg-white">
+      <section id="whycbs" className="relative z-30 py-12 px-6 md:px-20 bg-white">
         <div className="max-w-5xl mx-auto text-center">
           <div className="mb-8">
             <div className="inline-block px-12 py-4 rounded-full bg-primary-200 mb-6 shadow-sm">
@@ -502,7 +502,7 @@ word-break: break-word !important;
       </section>
 
       {/* Trusted by Top Builders Carousel */}
-      <section id="testimonials" className="py-12 bg-white rounded-t-[3rem] overflow-hidden pb-12">
+      <section id="testimonials" className="relative z-30 py-12 bg-white rounded-t-[3rem] overflow-hidden pb-12">
         <div className="text-center mb-16 px-6">
           <div className="inline-block px-12 py-4 rounded-full bg-primary-200 mb-6 shadow-sm">
              <h3 className="text-xl md:text-2xl font-medium text-primary-900 leading-none">
@@ -564,7 +564,7 @@ word-break: break-word !important;
       </section>
 
       {/* Contact Us Section */}
-      <section id="contact" className="py-20 px-6 md:px-20 bg-white">
+      <section id="contact" className="relative z-30 py-20 px-6 md:px-20 bg-white">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
              <div className="inline-block px-12 py-4 rounded-full bg-primary-200 mb-6 shadow-sm">
@@ -1375,3 +1375,5 @@ word-break: break-word !important;
 };
 
 export default WebsiteView;
+
+
