@@ -282,7 +282,7 @@ word-break: break-word !important;
   `;
 
   return (
-    <div className="w-full h-full overflow-y-auto bg-white custom-scrollbar" id="home-container">
+    <div className="w-full h-full overflow-y-auto bg-white no-scrollbar" id="home-container">
       
       {/* Hero Section - anchored background only */}
       <section
@@ -1365,6 +1365,7 @@ word-break: break-word !important;
 };
 
 export default WebsiteView;
+
 
 
 
