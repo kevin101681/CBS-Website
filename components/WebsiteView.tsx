@@ -284,6 +284,15 @@ word-break: break-word !important;
   return (
     <div className="w-full h-full overflow-y-auto bg-white custom-scrollbar" id="home-container">
       
+      {/* Fixed Logo */}
+      <div className="fixed top-3 left-0 right-0 md:left-3 md:right-auto z-50 flex justify-center md:justify-start md:pl-3 pointer-events-none animate-in fade-in duration-1000">
+        <img
+          src="/logo.png"
+          alt="Cascade Builder Services Logo"
+          className="h-16 md:h-20 w-auto object-contain drop-shadow-sm"
+        />
+      </div>
+
       {/* Hero Section */}
       <section 
         id="home" 
@@ -1375,5 +1384,6 @@ word-break: break-word !important;
 };
 
 export default WebsiteView;
+
 
 
