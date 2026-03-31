@@ -284,15 +284,6 @@ word-break: break-word !important;
   return (
     <div className="w-full h-full overflow-y-auto bg-white custom-scrollbar" id="home-container">
       
-      {/* Fixed Logo */}
-      <div className="sticky top-3 left-0 right-0 md:left-3 md:right-auto z-20 flex justify-center md:justify-start md:pl-3 pointer-events-none animate-in fade-in duration-1000">
-        <img
-          src="/logo.png"
-          alt="Cascade Builder Services Logo"
-          className="h-16 md:h-20 w-auto object-contain drop-shadow-sm"
-        />
-      </div>
-
       {/* Hero Section - anchored background only */}
       <section
         id="home"
@@ -310,6 +301,11 @@ word-break: break-word !important;
 
       {/* Hero Content - scrolls with page */}
       <div className="relative z-30 w-full min-h-[700px] md:min-h-[90vh] -mt-[700px] md:-mt-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-20 pt-10 pb-32 pointer-events-none">
+
+        {/* Logo */}
+        <div className="absolute top-3 left-0 right-0 md:left-3 md:right-auto flex justify-center md:justify-start md:pl-3 pointer-events-none">
+          <img src="/logo.png" alt="Cascade Builder Services Logo" className="h-16 md:h-20 w-auto object-contain drop-shadow-sm" />
+        </div>
 
         <div className="max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-16 md:-mt-24 p-8 pointer-events-auto">
           <h1 className="text-display-large text-3xl md:text-5xl lg:text-6xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
@@ -1369,6 +1365,7 @@ word-break: break-word !important;
 };
 
 export default WebsiteView;
+
 
 
 
