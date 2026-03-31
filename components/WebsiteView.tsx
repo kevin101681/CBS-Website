@@ -293,76 +293,61 @@ word-break: break-word !important;
         />
       </div>
 
-      {/* Hero Section */}
-      <section 
-        id="home" 
-        className="sticky top-0 w-full min-h-[700px] md:min-h-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-20 overflow-hidden pt-10 pb-32"
+      {/* Hero Section - anchored background only */}
+      <section
+        id="home"
+        className="sticky top-0 w-full min-h-[700px] md:min-h-[90vh] overflow-hidden"
       >
-        {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/header.png" 
-            alt="Cascade Builder Services Hero" 
+          <img
+            src="/header.png"
+            alt="Cascade Builder Services Hero"
             className="w-full h-full object-cover"
           />
         </div>
-
-        {/* Overlay for improved text contrast - Reduced Blur */}
         <div className="absolute inset-0 bg-white/40 backdrop-blur-[0.5px] z-10"></div>
-        
-        {/* Top-left Logo */}
-        <div className="absolute top-3 left-0 right-0 md:left-3 md:right-auto z-20 flex justify-center md:justify-start md:pl-0 animate-in fade-in duration-1000">
-          <img
-            src="/logo.png"
-            alt="Cascade Builder Services Logo"
-            className="h-16 md:h-20 w-auto object-contain drop-shadow-sm"
-          />
-        </div>
+      </section>
 
-        {/* Content */}
-        <div className="relative z-20 max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-16 md:-mt-24 p-8">
+      {/* Hero Content - scrolls with page */}
+      <div className="relative z-30 w-full min-h-[700px] md:min-h-[90vh] -mt-[700px] md:-mt-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-20 pt-10 pb-32 pointer-events-none">
 
+        <div className="max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-16 md:-mt-24 p-8 pointer-events-auto">
           <h1 className="text-display-large text-3xl md:text-5xl lg:text-6xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
             You Build. <br/>
             <span className="text-primary-600">We Manage.</span>
           </h1>
-          
+
           <div className="flex flex-col md:flex-row gap-4 mt-16 w-full justify-center">
-            {/* Get Quote */}
-            <button 
+            <button
               onClick={() => setIsQuoteOpen(true)}
               className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               Get a Quote
               <ArrowRight size={20} />
             </button>
-            
-            {/* Homeowner Portal */}
-            <button 
+
+            <button
               onClick={() => setIsPortalOptionsOpen(true)}
               className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               Homeowner Portal
             </button>
 
-            {/* View Media */}
-            <button 
+            <button
               onClick={() => setIsMediaOpen(true)}
               className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               View Media
             </button>
           </div>
-
         </div>
 
-        {/* Bottom-centered tagline */}
-        <div className="absolute bottom-20 left-0 right-0 z-20 flex justify-center px-6 animate-in fade-in duration-1000">
+        <div className="absolute bottom-20 left-0 right-0 flex justify-center px-6 animate-in fade-in duration-1000 pointer-events-auto">
           <p className="text-xl md:text-2xl text-primary-700 max-w-3xl leading-relaxed font-medium p-4 rounded-2xl bg-white/30 backdrop-blur-md shadow-sm border border-white/50">
             Partnering with builders to deliver exceptional warranty management and homeowner satisfaction.
           </p>
         </div>
-      </section>
+      </div>
 
       {/* Expertise Section */}
       <section id="services" className="py-12 px-6 md:px-20 bg-primary-50 relative rounded-t-[3rem] -mt-12 z-30 shadow-[0_-20px_40px_rgba(0,0,0,0.02)]">
@@ -1384,6 +1369,7 @@ word-break: break-word !important;
 };
 
 export default WebsiteView;
+
 
 
 
