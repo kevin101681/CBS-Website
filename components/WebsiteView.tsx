@@ -303,7 +303,7 @@ word-break: break-word !important;
       <div className="relative z-30 w-full min-h-[700px] md:min-h-[90vh] -mt-[700px] md:-mt-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-20 pt-10 pb-32 pointer-events-none">
 
         {/* Logo */}
-        <div className="absolute top-3 right-3 flex justify-end pointer-events-none">
+        <div className="absolute top-3 right-[38%] flex justify-end pointer-events-none">
           <img src="/logo.png" alt="Cascade Builder Services Logo" className="h-16 md:h-20 w-auto object-contain drop-shadow-sm" />
         </div>
 
@@ -1365,6 +1365,7 @@ word-break: break-word !important;
 };
 
 export default WebsiteView;
+
 
 
 
