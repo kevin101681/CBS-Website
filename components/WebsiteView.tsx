@@ -302,19 +302,18 @@ word-break: break-word !important;
       {/* Hero Content - scrolls with page */}
       <div className="relative z-30 w-full min-h-[700px] md:min-h-[90vh] -mt-[700px] md:-mt-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-20 pt-10 pb-32 pointer-events-none">
 
-        <div className="max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-16 md:-mt-24 p-8 pointer-events-auto">
+        <div className="max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-28 md:-mt-40 p-8 pointer-events-auto">
           {/* Logo */}
-          <img src="/logo.png" alt="Cascade Builder Services Logo" className="h-16 md:h-20 w-auto object-contain drop-shadow-sm" />
+          <img src="/logo.svg" alt="Cascade Builder Services Logo" className="h-28 md:h-36 w-auto object-contain drop-shadow-sm" />
 
-          <h1 className="text-display-large text-3xl md:text-5xl lg:text-6xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
-            You Build. <br/>
-            <span className="text-primary-600">We Manage.</span>
+          <h1 className="text-display-large text-2xl md:text-4xl lg:text-5xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm whitespace-nowrap">
+            <span style={{color: "#696e78"}}>You Build.</span> <span style={{color: "#7792a8"}}>We Manage.</span>
           </h1>
 
-          <div className="flex flex-col md:flex-row gap-4 mt-16 w-full justify-center">
+          <div className="flex flex-col md:flex-row gap-4 w-full justify-center mt-12 md:mt-16">
             <button
               onClick={() => setIsQuoteOpen(true)}
-              className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
+              className="bg-slate-200/40 backdrop-blur-md border border-slate-300/40 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-slate-200/60 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               Get a Quote
               <ArrowRight size={20} />
@@ -322,14 +321,14 @@ word-break: break-word !important;
 
             <button
               onClick={() => setIsPortalOptionsOpen(true)}
-              className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
+              className="bg-slate-200/40 backdrop-blur-md border border-slate-300/40 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-slate-200/60 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               Homeowner Portal
             </button>
 
             <button
               onClick={() => setIsMediaOpen(true)}
-              className="bg-white/30 backdrop-blur-md border border-white/50 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-white/50 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
+              className="bg-slate-200/40 backdrop-blur-md border border-slate-300/40 text-primary-700 px-8 py-4 rounded-2xl font-bold hover:bg-slate-200/60 transition-all active:scale-95 shadow-sm flex items-center justify-center gap-2 text-lg"
             >
               View Media
             </button>
@@ -337,7 +336,7 @@ word-break: break-word !important;
         </div>
 
         <div className="absolute bottom-20 left-0 right-0 flex justify-center px-6 animate-in fade-in duration-1000 pointer-events-auto">
-          <p className="text-xl md:text-2xl text-primary-700 max-w-3xl leading-relaxed font-medium p-4 rounded-2xl bg-white/30 backdrop-blur-md shadow-sm border border-white/50">
+          <p className="text-xl md:text-2xl text-primary-700 max-w-3xl leading-relaxed font-medium p-4 rounded-2xl bg-slate-200/40 backdrop-blur-md shadow-sm border border-slate-300/40">
             Partnering with builders to deliver exceptional warranty management and homeowner satisfaction.
           </p>
         </div>
