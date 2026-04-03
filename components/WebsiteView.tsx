@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck, Eye } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
@@ -302,12 +302,10 @@ word-break: break-word !important;
       {/* Hero Content - scrolls with page */}
       <div className="relative z-30 w-full min-h-[700px] md:min-h-[90vh] -mt-[700px] md:-mt-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-20 pt-10 pb-32 pointer-events-none">
 
-        {/* Logo */}
-        <div className="absolute top-3 right-[1%] flex justify-end pointer-events-none">
-          <img src="/logo.png" alt="Cascade Builder Services Logo" className="h-16 md:h-20 w-auto object-contain drop-shadow-sm" />
-        </div>
-
         <div className="max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-16 md:-mt-24 p-8 pointer-events-auto">
+          {/* Logo */}
+          <img src="/logo.png" alt="Cascade Builder Services Logo" className="h-16 md:h-20 w-auto object-contain drop-shadow-sm" />
+
           <h1 className="text-display-large text-3xl md:text-5xl lg:text-6xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm">
             You Build. <br/>
             <span className="text-primary-600">We Manage.</span>
