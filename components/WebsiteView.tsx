@@ -321,7 +321,7 @@ word-break: break-word !important;
 
         <div className="max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 -mt-28 md:-mt-40 p-8 pointer-events-auto">
           {/* Logo */}
-          <img src="/logo.svg" alt="Cascade Builder Services Logo" className="h-28 md:h-36 w-auto object-contain drop-shadow-sm" />
+          <img src="/logo.webp" alt="Cascade Builder Services Logo" className="h-28 md:h-36 w-auto object-contain drop-shadow-sm" fetchPriority="high" loading="eager" />
 
           <h1 className="text-display-large text-2xl md:text-4xl lg:text-5xl font-bold text-primary-900 tracking-tight leading-none drop-shadow-sm whitespace-nowrap">
             <span style={{color: "#696e78"}}>You Build.</span> <span style={{color: "#7792a8"}}>We Manage.</span>
