@@ -306,9 +306,11 @@ word-break: break-word !important;
       >
         <div className="absolute inset-0 z-0">
           <img
-            src="/header.png"
+            src="/header.webp"
             alt="Cascade Builder Services Hero"
             className="w-full h-full object-cover"
+            fetchPriority="high"
+            loading="eager"
           />
         </div>
         <div className="absolute inset-0 bg-white/40 backdrop-blur-[0.5px] z-10"></div>
