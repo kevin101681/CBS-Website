@@ -6,7 +6,8 @@ export default defineConfig({
   define: {
     // This allows the client-side code to access process.env.API_KEY during build
     // Defaults to empty string to prevent crash if variable is not set in Netlify yet
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY || "")
+    'process.env.API_KEY': JSON.stringify(process.env.API_KEY || ""),
+    'process.env.VITE_RECAPTCHA_SITE_KEY': JSON.stringify(process.env.VITE_RECAPTCHA_SITE_KEY || "")
   },
   server: {
     host: '0.0.0.0',

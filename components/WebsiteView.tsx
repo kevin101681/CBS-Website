@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { ArrowRight, UserCheck, ShieldCheck, LayoutDashboard, TrendingUp, Users, Smartphone, Zap, Phone, X, Check, Loader2, ExternalLink, Laptop, ArrowLeft, LogIn, HelpCircle, ImageIcon, ChevronLeft, ChevronRight, ClipboardCheck, Eye } from 'lucide-react';
 
 const WebsiteView: React.FC = () => {
@@ -7,6 +8,8 @@ const WebsiteView: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isPaused = useRef(false);
   const resumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   // Quote Form State
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
@@ -183,24 +186,36 @@ const WebsiteView: React.FC = () => {
       .join("&");
   };
 
-  const handleSubmitQuote = (e: React.FormEvent) => {
+  const handleSubmitQuote = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!executeRecaptcha) {
+      alert("reCAPTCHA is not ready. Please try again in a moment.");
+      return;
+    }
+
     setIsSubmitting(true);
 
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "quote", ...formData })
-    })
-      .then(() => {
-        setIsSubmitted(true);
-        setIsSubmitting(false);
-      })
-      .catch(error => {
-        alert("Submission failed. Please try again or call us.");
-        setIsSubmitting(false);
+    try {
+      const token = await executeRecaptcha('quote_request');
+
+      const response = await fetch("/.netlify/functions/verify-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, ...formData })
       });
-  };
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        alert("Submission failed. Please try again or call us.");
+      }
+    } catch {
+      alert("Submission failed. Please try again or call us.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [executeRecaptcha, formData]);
 
   // Helper to generate internal SVG placeholder if local image fails
   const getPlaceholderImage = (num: number) => {
@@ -787,6 +802,14 @@ word-break: break-word !important;
                       <p className="text-primary-500 font-medium">Questions? Call us.</p>
                       <a href="tel:8884295468" className="text-xl font-bold text-primary-700 hover:text-primary-900">888-429-5468</a>
                     </div>
+
+                    <p className="text-xs text-primary-400 text-center pt-2">
+                      This site is protected by reCAPTCHA and the Google{' '}
+                      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary-600">Privacy Policy</a>
+                      {' '}and{' '}
+                      <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary-600">Terms of Service</a>
+                      {' '}apply.
+                    </p>
                   </form>
                 </>
               ) : (

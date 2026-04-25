@@ -31,3 +31,8 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Hide the reCAPTCHA sticky badge (legal disclaimer shown inline instead) */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
