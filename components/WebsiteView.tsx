@@ -704,8 +704,11 @@ word-break: break-word !important;
                 <>
                   <p className="text-primary-500 text-center mb-6">Tell us about your project needs.</p>
                   
-                  <form name="quote" method="POST" data-netlify="true" onSubmit={handleSubmitQuote} className="space-y-4">
+                  <form name="quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmitQuote} className="space-y-4">
                     <input type="hidden" name="form-name" value="quote" />
+                    <p className="hidden" aria-hidden="true">
+                      <label>Leave this blank: <input name="bot-field" tabIndex={-1} autoComplete="off" /></label>
+                    </p>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-bold text-primary-700 mb-1 ml-2">First Name</label>

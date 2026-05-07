@@ -20,6 +20,35 @@ interface RecaptchaResponse {
   'error-codes'?: string[];
 }
 
+const FIELD_LIMITS: Record<string, number> = {
+  firstName: 100,
+  lastName: 100,
+  company: 150,
+  phone: 30,
+  email: 254,
+  closings: 50,
+  comments: 2000,
+};
+
+const MALICIOUS_PATTERNS = [
+  '<script',
+  'javascript:',
+  'onload=',
+  'onerror=',
+  'onclick=',
+  'onmouseover=',
+  '/etc/passwd',
+  '../',
+  'select ',
+  'union ',
+  'insert ',
+  'drop ',
+  'exec(',
+  'eval(',
+];
+
+const silentOk = { statusCode: 200, body: JSON.stringify({ success: true }) };
+
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
@@ -38,6 +67,23 @@ export const handler: Handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'reCAPTCHA token is required' }) };
   }
 
+  // Field length enforcement — drop oversized payloads silently
+  for (const [field, limit] of Object.entries(FIELD_LIMITS)) {
+    const value = formData[field as keyof typeof formData] ?? '';
+    if (value.length > limit) {
+      console.warn(`Field "${field}" exceeded length limit (${value.length} > ${limit}). Dropping.`);
+      return silentOk;
+    }
+  }
+
+  // Malicious payload detection — return a fake 200 so scanners think they succeeded
+  const payloadString = JSON.stringify(formData).toLowerCase();
+  const isMalicious = MALICIOUS_PATTERNS.some(p => payloadString.includes(p));
+  if (isMalicious) {
+    console.warn('Malicious payload detected and silently dropped:', payloadString.slice(0, 200));
+    return silentOk;
+  }
+
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   if (!secretKey) {
     console.error('RECAPTCHA_SECRET_KEY environment variable is not set');
@@ -51,7 +97,7 @@ export const handler: Handler = async (event) => {
   );
   const verifyData = (await verifyRes.json()) as RecaptchaResponse;
 
-  if (!verifyData.success || verifyData.score < 0.3) {
+  if (!verifyData.success || verifyData.score < 0.5) {
     console.warn('reCAPTCHA failed:', verifyData);
     return {
       statusCode: 403,
